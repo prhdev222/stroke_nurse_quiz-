@@ -18,7 +18,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans Thai',sa
 .header{background:var(--red);color:#fff;padding:16px 20px;text-align:center}
 .header h1{font-size:20px;font-weight:800;margin-bottom:4px}
 .header p{font-size:13px;opacity:.85}
-.case-box{background:#FFF8E7;border-left:4px solid #E85D04;margin:16px;padding:16px;border-radius:12px;font-size:13px;line-height:1.8}
+.case-box{background:#FFF8E7;border-left:4px solid #E85D04;margin:16px;padding:16px;border-radius:12px;font-size:13px;line-height:1.9}
 .case-box h2{font-size:14px;font-weight:700;color:#7B3C00;margin-bottom:8px}
 .case-tag{display:inline-block;background:#E85D04;color:#fff;font-size:11px;padding:2px 8px;border-radius:10px;margin-right:6px;margin-bottom:4px}
 .progress-wrap{padding:12px 16px 0}
@@ -72,8 +72,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans Thai',sa
 <div class="case-box">
   <h2>📋 เคสตัวอย่าง</h2>
   <span class="case-tag">ชายไทย</span><span class="case-tag">68 ปี</span><span class="case-tag">70 kg</span><span class="case-tag">HT + DM + AF</span><br>
-  ญาตินำส่ง ER <strong>เวลา 14:30 น.</strong> พบ <strong>ปากเบี้ยว แขนขาซ้ายอ่อนแรง พูดไม่ชัด</strong><br>
-  ตื่นนอนปกติ <strong>13:00 น.</strong> แล้วพบอาการ — ก่อนนอน 22:00 น. คืนก่อนยังปกติ<br>
+  ขณะนั่งดูทีวีกับครอบครัว ญาติสังเกตว่าผู้ป่วย<strong>พูดไม่ชัด ปากเบี้ยว แขนซ้ายอ่อนแรงทันที</strong>
+  เวลา <strong>13:00 น.</strong> (ญาติเห็นเหตุการณ์เอง)<br>
+  ญาตินำส่ง ER เวลา <strong>14:30 น.</strong><br>
   ประวัติใช้ <strong>Warfarin</strong> (AF) · V/S: <strong>BP 195/105</strong>, HR 88, O₂Sat 96% RA<br>
   CT Brain: <strong>No acute hemorrhage</strong>
 </div>
@@ -103,16 +104,86 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans Thai',sa
 
 <script>
 const Q=[
-  {g:'กลุ่มที่ 1 — Timeline & Onset',t:'ผู้ป่วยตื่นนอนพบอาการเวลา 13:00 น. Last Seen Normal (LSN) คือเวลาใด?',h:'LSN = เวลาสุดท้ายที่รู้ว่าผู้ป่วยปกติ ไม่ใช่เวลาที่พบอาการ',o:['13:00 น. (เวลาพบอาการ)','14:30 น. (เวลาถึง ER)','คืนก่อน 22:00 น. (เวลานอนหลับปกติ)','ไม่สามารถกำหนดได้'],a:2,e:'LSN = เวลาที่ญาติเห็นผู้ป่วยปกติครั้งสุดท้าย = 22:00 น. คืนก่อน เพราะไม่รู้ว่าเกิดอาการตอนไหนระหว่างหลับ'},
-  {g:'กลุ่มที่ 1 — Timeline & Onset',t:'จาก LSN คืนก่อน 22:00 น. ผู้ป่วยรายนี้อยู่ใน window การรักษาใด?',h:'rt-PA ให้ได้ใน 4.5 ชม. / Thrombectomy ให้ได้ใน 24 ชม. จาก LSN',o:['Fast Track rt-PA (≤4.5 ชม.)','Thrombectomy window (4.5–24 ชม.)','Conservative (>24 ชม.)','ยังไม่แน่ใจ ต้องรอ MRI ก่อน'],a:1,e:'LSN ถึง ER = >16 ชม. → เกิน rt-PA window แต่ยังอยู่ใน Thrombectomy window (≤24 ชม.) → ต้องประเมิน NIHSS, ASPECT และ LVO'},
-  {g:'กลุ่มที่ 2 — NIHSS & อาการ',t:'ถ้าประเมิน NIHSS ได้ 14 คะแนน หมายความว่าอย่างไร?',h:'NIHSS: 1–4=เล็กน้อย / 5–15=ปานกลาง / 16–20=ปานกลาง-รุนแรง / ≥21=รุนแรง',o:['เล็กน้อย — ไม่ต้อง refer','ปานกลาง — พิจารณา refer ถ้ามี LVO','รุนแรง — ต้อง refer ทันทีทุกราย','ปกติ — ยังไม่เข้าเกณฑ์'],a:1,e:'NIHSS 14 = Moderate บวกกับ window 24 ชม. → ถ้าสงสัย LVO ให้ Refer เพื่อ Mechanical Thrombectomy'},
-  {g:'กลุ่มที่ 2 — NIHSS & อาการ',t:'อาการใดในผู้ป่วยรายนี้บ่งชี้ว่าอาจมี Large Vessel Occlusion (LVO)?',h:'VAN Signs = Aphasia / Neglect / Eye deviation + NIHSS ≥6 → สงสัย LVO',o:['BP สูง 195/105 mmHg','ประวัติ AF ใช้ Warfarin','Aphasia + แขนซ้ายอ่อนแรง + NIHSS 14','O₂Sat 96% RA'],a:2,e:'Aphasia + motor weakness + NIHSS ≥6 → VAN positive → สงสัย LVO รีบแจ้งปลายทางเตรียม Thrombectomy'},
-  {g:'กลุ่มที่ 3 — Lab & ข้อห้าม rt-PA',t:'Lab อะไรบ้างที่ต้องรู้ก่อนตัดสินใจให้ rt-PA? (เลือกคำตอบครบที่สุด)',h:'C/I rt-PA: Glucose <50 / Plt <100,000 / INR >1.7 / PT >15 วิ / PTT สูง+Heparin',o:['CBC อย่างเดียวพอ','PT, INR, PTT เท่านั้น','Glucose, Platelet, PT/INR, PTT ครบทุกตัว','รอ CT ก่อน ไม่ต้องรีบเจาะ'],a:2,e:'ต้องรู้ครบ: Glucose (C/I <50), Plt (C/I <100,000), INR (C/I >1.7), PT (C/I >15 วิ), PTT — รีบเจาะและส่งด่วนพร้อมกับ CT'},
-  {g:'กลุ่มที่ 3 — Lab & ข้อห้าม rt-PA',t:'ถ้า INR = 2.1 จะมีผลต่อการให้ rt-PA อย่างไร?',h:'INR >1.7 = Absolute Exclusion สำหรับ rt-PA ไม่มีข้อยกเว้น',o:['ให้ rt-PA ได้ปกติ เพราะยังไม่ถึง 3.0','ให้ได้แต่ต้องลดขนาดยา 50%','ห้ามให้ rt-PA เด็ดขาด — แต่ยังพิจารณา Thrombectomy ได้','ให้ได้ถ้า BP คุมได้ดี'],a:2,e:'INR >1.7 = ห้ามให้ rt-PA เด็ดขาด แต่ผู้ป่วยยังอยู่ใน Thrombectomy window → Refer เพื่อดูดลิ่มเลือดแทนได้'},
-  {g:'กลุ่มที่ 3 — Lab & ข้อห้าม rt-PA',t:'BP 195/105 mmHg พยาบาลควรทำอย่างไร?',h:'SBP >185 หรือ DBP >110 = C/I rt-PA / ก่อน refer ให้ Keep BP <180/105',o:['ไม่เป็นข้อห้าม ต้องสูงกว่า 200 ก่อน','เป็นข้อห้าม — ให้ยาลด BP แล้วรอดู','เป็นข้อห้าม rt-PA — Keep BP <180/105 ระหว่างรอ refer และ monitor ต่อเนื่อง','รอให้แพทย์สั่งเท่านั้น ไม่ต้องทำอะไรก่อน'],a:2,e:'SBP 195 = C/I rt-PA ระหว่างรอ refer ให้ Keep BP <180/105 เพื่อลดความเสี่ยง hemorrhagic transformation'},
-  {g:'กลุ่มที่ 4 — การเตรียม Refer',t:'ก่อน refer ไปสถาบันประสาทวิทยา สิ่งใดต้องส่งไปด้วย?',h:'ปลายทางต้องการข้อมูลและสิ่งของครบก่อนรับผู้ป่วย',o:['แค่ตัวผู้ป่วยและประวัติปากเปล่า','CD PACs/ภาพ CT, ใบ refer+Lab, ญาติ, ใบสิทธิ, IV line, ยา','ใบ refer อย่างเดียว ของอื่นส่งทีหลัง','รอให้แพทย์เตรียมให้ครบก่อน'],a:1,e:'ต้องครบ: CD ลง PACs, ใบ refer+Lab, ญาติ, ใบรับรองสิทธิ, IV line, ยาประจำตัว — ยิ่งครบ ปลายทางเตรียมทีมได้เร็วขึ้น'},
-  {g:'กลุ่มที่ 5 — การสื่อสาร SBAR',t:'เมื่อโทรประสานสถาบันประสาทวิทยา พยาบาลควรรายงานตาม SBAR อย่างไร?',h:'SBAR = Situation / Background / Assessment / Recommendation',o:['บอกชื่อและ ward ก็พอ','S:อาการตอนนี้ → B:ประวัติ/ยา → A:NIHSS/CT/Lab → R:ต้องการรับ/เตรียม Thrombectomy','ส่ง Line แทนการโทร','รอให้แพทย์โทรเอง'],a:1,e:'SBAR: S=stroke onset >4.5h / B=HT,DM,AF ใช้ Warfarin / A=NIHSS 14, CT(-), INR 2.1, C/I rt-PA / R=ขอ refer พิจารณา Thrombectomy'},
-  {g:'กลุ่มที่ 5 — การสื่อสาร SBAR',t:'ระบบแสดง "REFER — Thrombectomy (C/I rt-PA)" พยาบาลควรอธิบายญาติว่าอย่างไร?',h:'ญาติมักเข้าใจว่าต้องได้รับยาละลายลิ่มเลือดเสมอ',o:['"ผู้ป่วยอาการหนักมาก ไม่มีทางรักษาได้แล้ว"','"ยาละลายลิ่มเลือดฉีดไม่ได้เพราะกินยาป้องกันลิ่มเลือดอยู่ แต่ยังส่งต่อเพื่อทำหัตถการดูดลิ่มเลือดออกได้"','"ไม่ต้องกังวล รอที่บ้านก่อน"','"รอผลเลือด 2-3 ชม. แล้วค่อยตัดสินใจ"'],a:1,e:'"กินยาป้องกันลิ่มเลือดอยู่ ฉีดยาตรงๆ ไม่ได้ แต่ยังส่งต่อเพื่อสอดสายเข้าไปดูดลิ่มเลือดออกโดยตรงได้ ต้องรีบทำภายใน 24 ชั่วโมงค่ะ"'},
+  {
+    g:'กลุ่มที่ 1 — Timeline & Onset',
+    t:'ญาติเห็นผู้ป่วยมีอาการทันทีเวลา 13:00 น. Last Seen Normal (LSN) และ Stroke Onset คือเวลาใด?',
+    h:'Witnessed onset = เห็นเหตุการณ์เอง → LSN = Onset = เวลาที่เห็นอาการทันที',
+    o:['LSN=13:00, Onset=14:30 (เวลาถึง ER)','LSN=Onset=13:00 น. (ญาติเห็นทันที)','LSN=เช้าวันนี้, Onset=ไม่ทราบ','ต้องถามญาติเพิ่มอีก ยังสรุปไม่ได้'],
+    a:1,
+    e:'Witnessed onset = ญาติเห็นทันที → LSN = Onset = 13:00 น. ต่างจาก Wake-up stroke ที่ไม่รู้เวลาเกิดอาการ กรณีนี้ชัดเจนมากค่ะ'
+  },
+  {
+    g:'กลุ่มที่ 1 — Timeline & Onset',
+    t:'Stroke onset 13:00 น. ถึง ER 14:30 น. ผู้ป่วยรายนี้อยู่ใน window การรักษาใด?',
+    h:'rt-PA ให้ได้ภายใน 4.5 ชม. จาก onset / Thrombectomy ให้ได้ภายใน 24 ชม.',
+    o:['เกิน window ทุกอย่างแล้ว — conservative เท่านั้น','อยู่ใน rt-PA window (onset 1.5 ชม.) และ Thrombectomy window','อยู่ใน Thrombectomy window เท่านั้น (4.5–24 ชม.)','ยังไม่สามารถบอกได้ รอ CT ก่อน'],
+    a:1,
+    e:'Onset ถึง ER = 13:00–14:30 = 1.5 ชม. → อยู่ใน rt-PA window (≤4.5 ชม.) และ Thrombectomy window ด้วย แต่ต้องตรวจ Lab และ Checklist ก่อนตัดสินใจ'
+  },
+  {
+    g:'กลุ่มที่ 2 — NIHSS & อาการ',
+    t:'ถ้าประเมิน NIHSS ได้ 14 คะแนน หมายความว่าอย่างไร?',
+    h:'NIHSS: 1–4=เล็กน้อย / 5–15=ปานกลาง / 16–20=ปานกลาง-รุนแรง / ≥21=รุนแรง',
+    o:['เล็กน้อย — ไม่ต้องรีบ refer','ปานกลาง — เข้าเกณฑ์พิจารณา rt-PA และ Thrombectomy','รุนแรงมาก — ต้อง refer ทันที ห้ามให้ยาใดๆ','ปกติ — ยังไม่เข้าเกณฑ์ใด'],
+    a:1,
+    e:'NIHSS 14 = Moderate → เข้าเกณฑ์พิจารณา rt-PA (ถ้าไม่มี C/I) หรือ Thrombectomy ถ้าสงสัย LVO ต้องดู Lab ร่วมด้วยค่ะ'
+  },
+  {
+    g:'กลุ่มที่ 2 — NIHSS & อาการ',
+    t:'อาการใดในผู้ป่วยรายนี้บ่งชี้ว่าอาจมี Large Vessel Occlusion (LVO)?',
+    h:'VAN Signs = Aphasia / Neglect / Eye deviation ร่วมกับ NIHSS ≥6 → สงสัย LVO',
+    o:['BP สูง 195/105 mmHg เพียงอย่างเดียว','ประวัติ AF ใช้ Warfarin','พูดไม่ชัด (Aphasia) + แขนซ้ายอ่อนแรง + NIHSS 14','O₂Sat 96% RA'],
+    a:2,
+    e:'Aphasia + motor deficit + NIHSS ≥6 → VAN positive → สงสัย LVO ต้องแจ้งปลายทางเตรียมทีม Thrombectomy ไว้ด้วยค่ะ'
+  },
+  {
+    g:'กลุ่มที่ 3 — Lab & ข้อห้าม rt-PA',
+    t:'Lab อะไรบ้างที่ต้องรู้ก่อนตัดสินใจให้ rt-PA? (เลือกคำตอบที่ครบที่สุด)',
+    h:'C/I rt-PA จาก Lab: Glucose <50 / Plt <100,000 / INR >1.7 / PT >15 วิ / PTT สูง+Heparin',
+    o:['CBC อย่างเดียวพอ','PT, INR, PTT เท่านั้น','Glucose, Platelet, PT/INR, PTT ครบทุกตัว','รอ CT ก่อน ค่อยเจาะทีหลัง'],
+    a:2,
+    e:'ต้องรู้ครบ: Glucose (C/I <50), Plt (C/I <100,000), INR (C/I >1.7), PT (C/I >15 วิ), PTT — เจาะพร้อม CT เลยค่ะ อย่ารอ'
+  },
+  {
+    g:'กลุ่มที่ 3 — Lab & ข้อห้าม rt-PA',
+    t:'ผล INR = 2.1 มีผลต่อการให้ rt-PA อย่างไร? และยังมีทางเลือกอื่นไหม?',
+    h:'INR >1.7 = Absolute Exclusion สำหรับ rt-PA แต่ไม่ใช่ข้อห้ามสำหรับ Thrombectomy',
+    o:['ให้ rt-PA ได้ปกติ INR ต้องสูงกว่า 3.0 ก่อน','ให้ rt-PA ได้แต่ลดขนาดยาครึ่งหนึ่ง','ห้ามให้ rt-PA เด็ดขาด — แต่ยังพิจารณา Refer Thrombectomy ได้','ห้ามให้ทุกอย่าง เพราะ BP สูงด้วย'],
+    a:2,
+    e:'INR >1.7 = C/I rt-PA เด็ดขาด ไม่มีข้อยกเว้น แต่ Thrombectomy ไม่มีข้อห้ามเรื่อง INR → Refer เพื่อพิจารณา Thrombectomy แทนได้ค่ะ'
+  },
+  {
+    g:'กลุ่มที่ 3 — Lab & ข้อห้าม rt-PA',
+    t:'BP 195/105 mmHg ในผู้ป่วยรายนี้ พยาบาลควรทำอย่างไร?',
+    h:'SBP >185 หรือ DBP >110 = C/I rt-PA / ระหว่างรอ refer ให้ Keep BP <180/105 mmHg',
+    o:['ไม่เป็นข้อห้ามใดๆ รอแพทย์สั่งเท่านั้น','เป็น C/I rt-PA เด็ดขาด — Keep BP <180/105 ระหว่างรอ refer และ monitor ต่อเนื่อง','ลด BP ให้ปกติก่อน แล้วพิจารณาให้ rt-PA ใหม่','ไม่ต้องทำอะไร เพราะไม่ได้ให้ rt-PA อยู่แล้ว'],
+    a:1,
+    e:'SBP >185 = C/I rt-PA ในเคสนี้ก็มี INR 2.1 C/I อยู่แล้วด้วย แต่ระหว่างรอ refer ยังต้อง Keep BP <180/105 เพื่อลดความเสี่ยง hemorrhagic transformation หลัง Thrombectomy ค่ะ'
+  },
+  {
+    g:'กลุ่มที่ 4 — การเตรียม Refer',
+    t:'ก่อน refer ไปสถาบันประสาทวิทยา พยาบาลต้องเตรียมอะไรบ้าง?',
+    h:'ปลายทางต้องการข้อมูลและสิ่งของครบก่อนรับผู้ป่วย — ยิ่งครบ ทีมปลายทางเตรียมได้เร็วยิ่งขึ้น',
+    o:['แค่ตัวผู้ป่วย — ของอื่นส่งทีหลังได้','CD PACs/ภาพ CT, ใบ refer+Lab ทั้งหมด, ญาติไปด้วย, ใบรับรองสิทธิ, IV line ดี, ยา','ใบ refer อย่างเดียวพอ ที่เหลือโทรบอกปลายทาง','รอให้แพทย์เตรียมทุกอย่างให้ครบก่อน พยาบาลไม่ต้องทำ'],
+    a:1,
+    e:'ต้องครบ: CD ลง PACs/ภาพ CT, ใบ refer+Lab, ญาติไปด้วย, ใบรับรองสิทธิ, IV line secure, ยาประจำตัว — แต่ละอย่างช่วยให้ปลายทางเตรียมห้อง cath ได้เร็วขึ้นค่ะ'
+  },
+  {
+    g:'กลุ่มที่ 5 — การสื่อสาร SBAR',
+    t:'เมื่อโทรประสานสถาบันประสาทวิทยา พยาบาลควรรายงานอะไรบ้าง?',
+    h:'SBAR = Situation / Background / Assessment / Recommendation',
+    o:['ชื่อผู้ป่วย อายุ และ ward เท่านั้น','S:อาการที่พบ → B:โรคประจำตัว/ยา → A:NIHSS/CT/Lab → R:ต้องการรับพิจารณา Thrombectomy','ส่ง LINE ข้อความแทนการโทรจะดีกว่า','รอให้แพทย์โทรประสานเองเพราะเป็นเรื่องวิชาชีพแพทย์'],
+    a:1,
+    e:'ตัวอย่าง: "S=ชายไทย 68 ปี stroke onset 1.5 ชม. / B=HT,DM,AF ใช้ Warfarin / A=NIHSS 14, CT no hemorrhage, INR 2.1 → C/I rt-PA / R=ขอ refer พิจารณา Thrombectomy ค่ะ"'
+  },
+  {
+    g:'กลุ่มที่ 5 — การสื่อสาร SBAR',
+    t:'ระบบ Stroke Fast Track แสดง "REFER — Thrombectomy (C/I rt-PA)" พยาบาลควรอธิบายญาติอย่างไร?',
+    h:'ญาติมักเข้าใจว่าต้องได้ "ยาละลายลิ่มเลือด" เสมอ — ต้องอธิบายให้เข้าใจว่ามีทางเลือกอื่น',
+    o:['"ผู้ป่วยอาการหนักมาก ไม่มีทางรักษาได้แล้ว"','"ยาละลายลิ่มเลือดฉีดตรงๆ ไม่ได้เพราะกินยาป้องกันลิ่มเลือดอยู่ แต่ยังส่งต่อเพื่อสอดสายดูดลิ่มเลือดออกโดยตรงได้ ต้องรีบภายใน 24 ชม."','"ไม่ต้องกังวล รับนอน รพ.สงฆ์ไว้ก่อน ดูอาการไปเรื่อยๆ"','"รอผลเลือดครบก่อน 3–4 ชม. แล้วค่อยตัดสินใจ"'],
+    a:1,
+    e:'"คุณพ่อกินยาป้องกันลิ่มเลือดอยู่ ทำให้ฉีดยาละลายลิ่มเลือดตรงๆ ไม่ได้ค่ะ แต่ยังมีวิธีอื่น คือส่งต่อโรงพยาบาลที่มีเครื่องมือพิเศษ เพื่อสอดสายเข้าไปดูดลิ่มเลือดออกโดยตรง ซึ่งต้องทำภายใน 24 ชั่วโมงค่ะ"'
+  },
 ];
 
 let cur=0,ans=new Array(Q.length).fill(null),rev=false;
@@ -123,14 +194,21 @@ function render(){
   document.getElementById('progressLabel').textContent='ข้อ '+(cur+1)+' / '+Q.length;
   let h='<div class="q-card">';
   if(rev){const ok=ans[cur]===q.a;h+='<span class="review-badge show" style="background:'+(ok?'var(--sbg)':'var(--dbg)')+';color:'+(ok?'var(--stx)':'var(--dtx)')+';border-color:'+(ok?'var(--sbd)':'var(--dbd)')+'\">'+(ok?'✓ ตอบถูก':'✗ ตอบผิด')+'</span>';}
-  h+='<div class="q-group">'+q.g+'</div><div class="q-num">ข้อที่ '+(cur+1)+'</div><div class="q-text">'+q.t+'</div><div class="q-hint">💡 '+q.h+'</div><div class="options">';
+  h+='<div class="q-group">'+q.g+'</div>';
+  h+='<div class="q-num">ข้อที่ '+(cur+1)+'</div>';
+  h+='<div class="q-text">'+q.t+'</div>';
+  h+='<div class="q-hint">💡 '+q.h+'</div>';
+  h+='<div class="options">';
   q.o.forEach((o,i)=>{
     let c='opt';
     if(done||rev){if(i===q.a)c+=' reveal';else if(i===ans[cur]&&ans[cur]!==q.a)c+=' wrong';}
     h+='<button class="'+c+'" onclick="pick('+i+')" '+(done||rev?'disabled':'')+'>'+String.fromCharCode(65+i)+'. '+o+'</button>';
   });
   h+='</div>';
-  if(done||rev){const ok=ans[cur]===q.a;h+='<div class="explanation show '+(ok?'correct-exp':'wrong-exp')+'">'+(ok?'✅':'📖')+' <strong>'+(ok?'ถูกต้อง!':'เฉลย:')+'</strong> '+q.e+'</div>';}
+  if(done||rev){
+    const ok=ans[cur]===q.a;
+    h+='<div class="explanation show '+(ok?'correct-exp':'wrong-exp')+'">'+(ok?'✅':'📖')+' <strong>'+(ok?'ถูกต้อง!':'เฉลย:')+'</strong> '+q.e+'</div>';
+  }
   h+='</div>';
   document.getElementById('quizWrap').innerHTML=h;
   document.getElementById('btnPrev').style.display=cur===0?'none':'block';
@@ -151,7 +229,7 @@ function showScore(){
   const correct=ans.filter((a,i)=>a===Q[i].a).length,pct=Math.round(correct/Q.length*100);
   let icon='🏆',title='ยอดเยี่ยม!',sub='เข้าใจ Stroke Fast Track ได้เป็นอย่างดีค่ะ';
   if(pct<60){icon='📚';title='ต้องทบทวนเพิ่มเติม';sub='ลองอ่าน guideline แล้วทำใหม่อีกครั้งนะคะ';}
-  else if(pct<80){icon='👍';title='ทำได้ดี!';sub='เข้าใจ workflow ส่วนใหญ่ แต่มีจุดที่ควรทบทวน';}
+  else if(pct<80){icon='👍';title='ทำได้ดี!';sub='เข้าใจ workflow ส่วนใหญ่ มีจุดที่ควรทบทวนเล็กน้อย';}
   document.getElementById('scoreIcon').textContent=icon;
   document.getElementById('scoreTitle').textContent=title;
   document.getElementById('scoreSub').textContent=sub;
