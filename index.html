@@ -64,6 +64,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans Thai',sa
 .btn-next{flex:2;padding:12px;border:none;border-radius:12px;background:var(--red);color:#fff;font-size:14px;font-weight:700;font-family:inherit;cursor:pointer}
 .btn-next:disabled{opacity:.4;cursor:not-allowed}
 .score-screen{display:none;padding:24px 16px 40px;text-align:center;max-width:500px;margin:0 auto}
+.score-screen .stats-box{text-align:left;margin-top:8px}
 .score-icon{font-size:60px;margin-bottom:12px}
 .score-name{font-size:13px;color:var(--tx2);margin-bottom:4px;padding:4px 14px;background:var(--bg);border-radius:20px;display:inline-block;border:0.5px solid var(--bl)}
 .score-title{font-size:22px;font-weight:800;margin-bottom:6px;margin-top:8px}
@@ -83,6 +84,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans Thai',sa
 .btn-review{width:100%;padding:14px;border:1.5px solid var(--red);border-radius:12px;background:#fff;color:var(--red);font-size:16px;font-weight:600;font-family:inherit;cursor:pointer;margin-top:8px}
 .review-badge{display:none;padding:4px 12px;border-radius:20px;font-size:12px;margin-bottom:10px;border:1px solid}
 .review-badge.show{display:inline-block}
+.stats-box{background:var(--ibg);border:1px solid var(--ibd);border-radius:12px;padding:14px;margin-bottom:18px;font-size:13px;line-height:1.65;color:var(--itx)}
+.stats-box .stats-summary{font-weight:700;margin-bottom:8px;font-size:14px}
+.stats-box .stats-subhead{font-size:11px;opacity:.9;margin-bottom:8px;color:var(--itx)}
+.stats-box .stats-top-item{padding:8px 0;border-top:1px solid rgba(24,95,165,.2);font-size:13px}
+.stats-box .stats-top-item:first-of-type{border-top:none;padding-top:0}
+.stats-box .stats-ward{color:var(--tx2);font-size:12px}
+.stats-box .stats-loading,.stats-box .stats-err,.stats-box .stats-empty{font-size:12px;opacity:.95}
+.stats-box .stats-err{color:var(--dtx)}
+.btn-refresh-stats{margin-top:10px;width:100%;padding:8px;border:1px solid var(--ibd);border-radius:8px;background:#fff;color:var(--itx);font-size:12px;font-weight:600;font-family:inherit;cursor:pointer}
+.btn-refresh-stats:active{transform:scale(.99)}
 </style>
 </head>
 <body>
@@ -115,19 +126,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans Thai',sa
       <div class="select-wrap">
         <select class="field-inp" id="inputWard" onchange="onWardChange()">
           <option value="">— เลือก Ward / หน่วยงาน —</option>
-          <option value="MED1">MED1</option>
-          <option value="MED2">MED2</option>
+          <option value="MED">MED</option>
           <option value="Surg">Surg</option>
           <option value="Ortho">Ortho</option>
-          <option value="ENT">ENT</option>
           <option value="EYE">EYE</option>
+          <option value="ENT">ENT</option>
           <option value="ER">ER</option>
-          <option value="OPD med">OPD med</option>
-          <option value="OPD surg">OPD surg</option>
-          <option value="OPD ENT">OPD ENT</option>
-          <option value="OPD ortho">OPD ortho</option>
           <option value="LAB">LAB</option>
-          <option value="Other">Other (ระบุเอง)</option>
+          <option value="Other">Other ระบุเอง</option>
         </select>
       </div>
       <!-- ช่องกรอกเพิ่ม เมื่อเลือก Other -->
@@ -171,6 +177,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans Thai',sa
   <div class="score-big" id="scoreBig"></div>
   <div class="score-max" id="scoreMax"></div>
   <div id="sendStatus" class="send-status"></div>
+  <div class="stats-box" id="statsBox" hidden></div>
   <div class="score-bars" id="scoreBars"></div>
   <button class="btn-review" onclick="startReview()">🔍 ดูเฉลยทั้งหมด</button>
   <button class="btn-restart" onclick="restart()">🔄 ทำใหม่อีกครั้ง</button>
@@ -183,7 +190,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans Thai',sa
 </div>
 
 <script>
-const SHEET_URL='https://script.google.com/macros/s/AKfycbyyasQ96X6hl9p-mqyTyIBBVMYuk4rbASohDerNM7ojkf-PQhZebLW54Nq5ID2PwPdK/exec';
+const SHEET_URL='https://script.google.com/macros/s/AKfycbwYgKjyg9-uEb29HEuNiKLk8mdvc8-jBNgAe-FvCHHkfO0AHDEWanp7J-4WQdWyk_CC/exec';
 const TOKEN='PRH2024STROKE';
 
 const Q=[
@@ -201,6 +208,59 @@ const Q=[
 
 let cur=0,ans=new Array(Q.length).fill(null),rev=false;
 let userName='',userWard='';
+
+// ===== สถิติจาก Sheet (JSONP — หลีกเลี่ยง CORS ของ Google Apps Script) =====
+function escapeHtml(s){
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
+}
+function renderStatsBox(data){
+  const box=document.getElementById('statsBox');
+  if(!box) return;
+  box.hidden=false;
+  if(!data||!data.ok){
+    box.innerHTML='<div class="stats-err">โหลดสถิติไม่ได้ — ต้องเพิ่ม <code>doGet</code> ใน Google Apps Script ตามไฟล์ <code>google-apps-script/doGet-stats.gs</code> แล้ว Deploy เว็บแอปใหม่</div>';
+    return;
+  }
+  const total=data.total??0;
+  const top=data.topTwo||[];
+  let rows='';
+  if(top.length===0){
+    rows='<div class="stats-empty">ยังไม่มีผู้ทำแบบทดสอบในชีต</div>';
+  }else{
+    top.forEach((r,i)=>{
+      rows+='<div class="stats-top-item"><strong>อันดับ '+(i+1)+'</strong> '+escapeHtml(r.name)+' <span class="stats-ward">· '+escapeHtml(r.ward||'—')+'</span><br>'+r.score+' / '+r.total+' ข้อ ('+r.pct+'%)</div>';
+    });
+  }
+  box.innerHTML='<div class="stats-summary">ผู้ทำแบบทดสอบทั้งหมด <strong>'+total+'</strong> คน</div>'+
+    '<div class="stats-subhead">คะแนนสูงสุด 2 อันดับ (ถ้าคะแนนเท่ากัน เรียงจากรอบล่าสุด)</div>'+rows+
+    '<button type="button" class="btn-refresh-stats" onclick="loadStats()">↻ รีเฟรชสถิติ</button>';
+}
+function loadStats(){
+  const box=document.getElementById('statsBox');
+  if(!box) return;
+  box.hidden=false;
+  box.innerHTML='<div class="stats-loading">⏳ กำลังโหลดสถิติ...</div>';
+  const cb='_strokeQuizStats_'+Date.now();
+  const t=setTimeout(function(){
+    cleanup();
+    renderStatsBox({ok:false});
+  },15000);
+  function cleanup(){
+    clearTimeout(t);
+    try{ delete window[cb]; }catch(_){}
+    const old=document.getElementById('stats-jsonp');
+    if(old) old.remove();
+  }
+  window[cb]=function(data){
+    cleanup();
+    renderStatsBox(data);
+  };
+  const s=document.createElement('script');
+  s.id='stats-jsonp';
+  s.onerror=function(){ cleanup(); renderStatsBox({ok:false}); };
+  s.src=SHEET_URL+'?action=stats&token='+encodeURIComponent(TOKEN)+'&callback='+encodeURIComponent(cb);
+  document.head.appendChild(s);
+}
 
 // ===== WARD DROPDOWN =====
 function onWardChange(){
@@ -294,6 +354,7 @@ async function showScore(){
   });
   document.getElementById('scoreBars').innerHTML=b;
   if(!rev) await sendToSheet(correct,Q.length,pct);
+  loadStats();
   scrollTo(0,0);
 }
 
@@ -334,6 +395,8 @@ function restart(){
   document.getElementById('inputOtherWard').value='';
   document.getElementById('otherWardWrap').style.display='none';
   document.getElementById('btnStart').disabled=true;
+  const sb=document.getElementById('statsBox');
+  if(sb){ sb.hidden=true; sb.innerHTML=''; }
   scrollTo(0,0);
 }
 </script>
