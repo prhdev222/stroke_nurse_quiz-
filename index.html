@@ -2,119 +2,231 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#C41E3A">
 <title>Quiz Stroke Fast Track — พยาบาล รพ.สงฆ์</title>
+<script>
+(function(){
+  try{
+    var th=localStorage.getItem('strokeQuiz_theme');
+    if(th==='dark'||th==='auto') document.documentElement.setAttribute('data-theme',th);
+    else document.documentElement.removeAttribute('data-theme');
+    var tx=localStorage.getItem('strokeQuiz_text');
+    if(tx==='1'||tx==='2') document.documentElement.setAttribute('data-text',tx);
+    else document.documentElement.removeAttribute('data-text');
+  }catch(e){}
+})();
+</script>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:rgba(196,30,58,.08)}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;font-size:100%}
+html[data-text="1"]{font-size:112.5%}
+html[data-text="2"]{font-size:125%}
 :root{
+  color-scheme:light;
   --red:#C41E3A;--bg:#f5f4f0;--card:#fff;
   --tx:#1a1a18;--tx2:#6b6b67;--bl:#e5e3dc;
   --sbg:#EAF3DE;--stx:#27500A;--sbd:#97C459;
   --dbg:#FCEBEB;--dtx:#791F1F;--dbd:#F09595;
   --ibg:#E6F1FB;--itx:#185FA5;--ibd:#85B7EB;
   --wbg:#FAEEDA;--wtx:#633806;--wbd:#EF9F27;
+  --nav-bg:#fff;--header-fg:#fff;
+  --case-bg:#FFF8E7;--case-border:#E85D04;--case-title:#7B3C00;--case-tag-bg:#E85D04;
+  --focus-ring:rgba(196,30,58,.14);
+  --card-shadow:0 2px 12px rgba(0,0,0,.06),0 1px 3px rgba(0,0,0,.04);
+  --nav-shadow:0 -6px 24px rgba(0,0,0,.06);
+  --progress-track:#e0ddd7;
 }
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans Thai',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh}
-.header{background:var(--red);color:#fff;padding:16px 20px;text-align:center}
-.header h1{font-size:20px;font-weight:800;margin-bottom:4px}
-.header p{font-size:13px;opacity:.85}
-.intro-screen{padding:20px 16px 100px}
-.intro-card{background:var(--card);border-radius:16px;padding:24px 20px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
-.intro-card h2{font-size:18px;font-weight:800;margin-bottom:6px;color:var(--red)}
-.intro-card p{font-size:13px;color:var(--tx2);margin-bottom:20px;line-height:1.7}
-.intro-case{background:#FFF8E7;border-left:4px solid #E85D04;padding:14px;border-radius:10px;font-size:13px;line-height:1.8;margin-bottom:20px}
-.intro-case h3{font-size:13px;font-weight:700;color:#7B3C00;margin-bottom:6px}
-.case-tag{display:inline-block;background:#E85D04;color:#fff;font-size:11px;padding:2px 8px;border-radius:10px;margin-right:4px;margin-bottom:4px}
-.field-lbl{font-size:12px;color:var(--tx2);margin-bottom:5px;font-weight:600}
+html[data-theme="dark"]{
+  color-scheme:dark;
+  --red:#e86577;--bg:#121211;--card:#1e1e1c;
+  --tx:#ebebe4;--tx2:#9c9c94;--bl:#3c3c38;
+  --sbg:#243220;--stx:#a8d977;--sbd:#5a8040;
+  --dbg:#3a2525;--dtx:#f0c4c4;--dbd:#7a4a4a;
+  --ibg:#1a2733;--itx:#8ec5f0;--ibd:#3d5e80;
+  --wbg:#2f2818;--wtx:#e8c98a;--wbd:#b8893a;
+  --nav-bg:#1a1a18;--header-fg:#fff;
+  --case-bg:#2c2419;--case-border:#d9944a;--case-title:#f2d9a8;--case-tag-bg:#c9782e;
+  --focus-ring:rgba(232,101,119,.3);
+  --card-shadow:0 2px 16px rgba(0,0,0,.45);
+  --nav-shadow:0 -6px 28px rgba(0,0,0,.4);
+  --progress-track:#353532;
+}
+@media (prefers-color-scheme:dark){
+  html[data-theme="auto"]{
+    color-scheme:dark;
+    --red:#e86577;--bg:#121211;--card:#1e1e1c;
+    --tx:#ebebe4;--tx2:#9c9c94;--bl:#3c3c38;
+    --sbg:#243220;--stx:#a8d977;--sbd:#5a8040;
+    --dbg:#3a2525;--dtx:#f0c4c4;--dbd:#7a4a4a;
+    --ibg:#1a2733;--itx:#8ec5f0;--ibd:#3d5e80;
+    --wbg:#2f2818;--wtx:#e8c98a;--wbd:#b8893a;
+    --nav-bg:#1a1a18;--header-fg:#fff;
+    --case-bg:#2c2419;--case-border:#d9944a;--case-title:#f2d9a8;--case-tag-bg:#c9782e;
+    --focus-ring:rgba(232,101,119,.3);
+    --card-shadow:0 2px 16px rgba(0,0,0,.45);
+    --nav-shadow:0 -6px 28px rgba(0,0,0,.4);
+    --progress-track:#353532;
+  }
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans Thai',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;min-height:100dvh;-webkit-font-smoothing:antialiased;transition:background-color .2s ease,color .2s ease}
+.header{background:var(--red);color:var(--header-fg);padding:max(14px, env(safe-area-inset-top, 0px)) max(12px, env(safe-area-inset-right, 0px)) 12px max(12px, env(safe-area-inset-left, 0px))}
+.header-row{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;max-width:560px;margin:0 auto}
+.header-text{flex:1;min-width:0;text-align:center;padding:0 4px}
+.header h1{font-size:clamp(1.0625rem,4.5vw,1.25rem);font-weight:800;margin-bottom:4px;line-height:1.25}
+.header p{font-size:0.8125rem;opacity:.92;line-height:1.4}
+.header-actions{display:flex;flex-shrink:0;gap:6px;padding-top:2px}
+.header-icon-btn{width:44px;height:44px;border-radius:12px;border:1px solid rgba(255,255,255,.4);background:rgba(255,255,255,.14);color:var(--header-fg);font-size:1.125rem;font-weight:700;font-family:inherit;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;touch-action:manipulation;-webkit-user-select:none;user-select:none}
+.header-icon-btn:active{opacity:.88;transform:scale(.97)}
+#btnTextSize{font-size:0.9375rem;letter-spacing:-0.02em}
+.intro-screen{padding:18px max(16px, env(safe-area-inset-left, 0px)) calc(100px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-right, 0px))}
+.intro-card{background:var(--card);border-radius:16px;padding:24px 20px;box-shadow:var(--card-shadow)}
+.intro-card h2{font-size:1.125rem;font-weight:800;margin-bottom:6px;color:var(--red)}
+.intro-card p{font-size:0.8125rem;color:var(--tx2);margin-bottom:20px;line-height:1.7}
+.intro-footnote{font-size:0.6875rem;color:var(--tx2);margin-top:14px;text-align:center;line-height:1.6}
+.intro-case{background:var(--case-bg);border-left:4px solid var(--case-border);padding:14px;border-radius:10px;font-size:0.8125rem;line-height:1.8;margin-bottom:20px}
+.intro-case h3{font-size:0.8125rem;font-weight:700;color:var(--case-title);margin-bottom:6px}
+.case-tag{display:inline-block;background:var(--case-tag-bg);color:#fff;font-size:0.6875rem;padding:2px 8px;border-radius:10px;margin-right:4px;margin-bottom:4px}
+.field-lbl{font-size:0.75rem;color:var(--tx2);margin-bottom:5px;font-weight:600}
 .field-wrap{margin-bottom:16px}
-.field-inp{width:100%;padding:12px 14px;border:1.5px solid var(--bl);border-radius:10px;font-size:15px;font-family:inherit;background:var(--bg);color:var(--tx);outline:none;appearance:none;-webkit-appearance:none}
-.field-inp:focus{border-color:var(--red);box-shadow:0 0 0 2px rgba(196,30,58,.1)}
+.field-inp{width:100%;padding:12px 14px;border:1.5px solid var(--bl);border-radius:10px;font-size:0.9375rem;font-family:inherit;background:var(--card);color:var(--tx);outline:none;appearance:none;-webkit-appearance:none}
+.field-inp:focus{border-color:var(--red);box-shadow:0 0 0 3px var(--focus-ring)}
 .select-wrap{position:relative}
-.select-wrap::after{content:'▾';position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--tx2);pointer-events:none;font-size:14px}
+.select-wrap::after{content:'▾';position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--tx2);pointer-events:none;font-size:0.875rem}
 /* other input */
 #otherWardWrap{display:none;margin-top:8px}
-#otherWardWrap .field-inp{border-color:var(--wbd);background:#FFFCF5}
+#otherWardWrap .field-inp{border-color:var(--wbd);background:var(--wbg)}
 #otherWardWrap .field-inp:focus{border-color:var(--red)}
-.btn-start{width:100%;padding:14px;border:none;border-radius:12px;background:var(--red);color:#fff;font-size:16px;font-weight:700;font-family:inherit;cursor:pointer;margin-top:4px}
+.btn-start{width:100%;padding:15px 16px;border:none;border-radius:12px;background:var(--red);color:#fff;font-size:1rem;font-weight:700;font-family:inherit;cursor:pointer;margin-top:4px;min-height:48px;touch-action:manipulation}
 .btn-start:disabled{opacity:.4;cursor:not-allowed}
-.case-box{background:#FFF8E7;border-left:4px solid #E85D04;margin:16px;padding:14px;border-radius:12px;font-size:12px;line-height:1.8;display:none}
-.case-box h2{font-size:13px;font-weight:700;color:#7B3C00;margin-bottom:6px}
-.progress-wrap{padding:10px 16px 0;display:none}
-.progress-bar{height:6px;background:#e0ddd7;border-radius:3px;overflow:hidden;margin-bottom:4px}
+.case-box{background:var(--case-bg);border-left:4px solid var(--case-border);margin:12px max(12px, env(safe-area-inset-left, 0px)) 12px max(12px, env(safe-area-inset-right, 0px));padding:14px;border-radius:12px;font-size:0.75rem;line-height:1.8;display:none;box-shadow:var(--card-shadow)}
+.case-box h2{font-size:0.8125rem;font-weight:700;color:var(--case-title);margin-bottom:6px}
+.case-box .case-placeholder{color:var(--tx2);font-size:0.75rem}
+.progress-wrap{padding:10px max(16px, env(safe-area-inset-left, 0px)) 0 max(16px, env(safe-area-inset-right, 0px));display:none}
+.progress-bar{height:6px;background:var(--progress-track);border-radius:3px;overflow:hidden;margin-bottom:4px}
 .progress-fill{height:100%;background:var(--red);border-radius:3px;transition:width .4s}
-.progress-label{font-size:11px;color:var(--tx2);text-align:right}
-.quiz-wrap{padding:10px 16px 100px;display:none}
-.q-card{background:var(--card);border-radius:16px;padding:20px;margin-bottom:12px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
-.q-num{font-size:11px;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
-.q-group{font-size:10px;color:var(--tx2);margin-bottom:4px}
-.q-text{font-size:15px;font-weight:600;line-height:1.6;margin-bottom:14px}
-.q-hint{font-size:12px;color:var(--itx);background:var(--ibg);padding:8px 12px;border-radius:8px;margin-bottom:12px;line-height:1.6}
+.progress-label{font-size:0.6875rem;color:var(--tx2);text-align:right}
+.quiz-wrap{padding:10px max(16px, env(safe-area-inset-left, 0px)) calc(100px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-right, 0px));display:none}
+.q-card{background:var(--card);border-radius:16px;padding:20px;margin-bottom:12px;box-shadow:var(--card-shadow)}
+.q-num{font-size:0.6875rem;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.q-group{font-size:0.625rem;color:var(--tx2);margin-bottom:4px}
+.q-text{font-size:0.9375rem;font-weight:600;line-height:1.6;margin-bottom:14px}
+.q-hint{font-size:0.75rem;color:var(--itx);background:var(--ibg);padding:8px 12px;border-radius:8px;margin-bottom:12px;line-height:1.6}
 .options{display:flex;flex-direction:column;gap:8px}
-.opt{padding:12px 14px;border-radius:10px;border:1.5px solid var(--bl);background:var(--bg);font-size:14px;cursor:pointer;text-align:left;font-family:inherit;line-height:1.5;transition:all .15s}
-.opt:active{transform:scale(.98)}
+.opt{padding:12px 14px;border-radius:10px;border:1.5px solid var(--bl);background:var(--card);font-size:0.875rem;cursor:pointer;text-align:left;font-family:inherit;line-height:1.5;transition:transform .12s ease,background .12s ease,border-color .12s ease;touch-action:manipulation}
+.opt:active{transform:scale(.985)}
 .opt.reveal{background:var(--sbg);border-color:var(--sbd);color:var(--stx);font-weight:600}
 .opt.wrong{background:var(--dbg);border-color:var(--dbd);color:var(--dtx)}
 .opt:disabled{cursor:default}
-.explanation{margin-top:12px;padding:12px 14px;border-radius:10px;font-size:13px;line-height:1.7;display:none}
+.explanation{margin-top:12px;padding:12px 14px;border-radius:10px;font-size:0.8125rem;line-height:1.7;display:none}
 .explanation.show{display:block}
 .explanation.correct-exp{background:var(--sbg);color:var(--stx);border:1px solid var(--sbd)}
 .explanation.wrong-exp{background:var(--wbg);color:var(--wtx);border:1px solid var(--wbd)}
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--bl);padding:12px 16px;display:none;gap:10px}
-.btn-prev{flex:1;padding:12px;border:1.5px solid var(--bl);border-radius:12px;background:var(--bg);font-size:14px;font-family:inherit;cursor:pointer;color:var(--tx2)}
-.btn-next{flex:2;padding:12px;border:none;border-radius:12px;background:var(--red);color:#fff;font-size:14px;font-weight:700;font-family:inherit;cursor:pointer}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:100;background:var(--nav-bg);border-top:1px solid var(--bl);padding:12px max(16px, env(safe-area-inset-left, 0px)) max(12px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-right, 0px));display:none;gap:10px;box-shadow:var(--nav-shadow)}
+.btn-prev{flex:1;padding:12px 14px;border:1.5px solid var(--bl);border-radius:12px;background:var(--card);font-size:0.875rem;font-family:inherit;cursor:pointer;color:var(--tx2);min-height:48px;touch-action:manipulation;-webkit-user-select:none;user-select:none}
+.btn-next{flex:2;padding:12px 14px;border:none;border-radius:12px;background:var(--red);color:#fff;font-size:0.875rem;font-weight:700;font-family:inherit;cursor:pointer;min-height:48px;touch-action:manipulation;-webkit-user-select:none;user-select:none}
 .btn-next:disabled{opacity:.4;cursor:not-allowed}
-.score-screen{display:none;padding:24px 16px 40px;text-align:center;max-width:500px;margin:0 auto}
+.score-screen{display:none;padding:24px max(16px, env(safe-area-inset-left, 0px)) calc(28px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-right, 0px));text-align:center;max-width:500px;margin:0 auto}
 .score-screen .stats-box{text-align:left;margin-top:8px}
-.score-icon{font-size:60px;margin-bottom:12px}
-.score-name{font-size:13px;color:var(--tx2);margin-bottom:4px;padding:4px 14px;background:var(--bg);border-radius:20px;display:inline-block;border:0.5px solid var(--bl)}
-.score-title{font-size:22px;font-weight:800;margin-bottom:6px;margin-top:8px}
-.score-sub{font-size:14px;color:var(--tx2);margin-bottom:16px}
-.score-big{font-size:52px;font-weight:900;color:var(--red);margin-bottom:2px}
-.score-max{font-size:16px;color:var(--tx2);margin-bottom:16px}
+.score-icon{font-size:3.75rem;margin-bottom:12px;line-height:1}
+.score-name{font-size:0.8125rem;color:var(--tx2);margin-bottom:4px;padding:6px 14px;background:var(--card);border-radius:20px;display:inline-block;border:0.5px solid var(--bl);max-width:100%;line-height:1.45;word-break:break-word;box-sizing:border-box}
+.score-title{font-size:1.375rem;font-weight:800;margin-bottom:6px;margin-top:8px}
+.score-sub{font-size:0.875rem;color:var(--tx2);margin-bottom:16px}
+.score-big{font-size:3.25rem;font-weight:900;color:var(--red);margin-bottom:2px;line-height:1}
+.score-max{font-size:1rem;color:var(--tx2);margin-bottom:16px}
+.score-case-recap{background:var(--case-bg);border-left:4px solid var(--case-border);border-radius:12px;padding:14px;margin:0 auto 16px;max-width:100%;font-size:0.75rem;line-height:1.75;color:var(--tx2);text-align:left}
+.score-case-recap h3{font-size:0.8125rem;font-weight:700;color:var(--case-title);margin-bottom:8px}
+.score-case-recap .recap-this{margin-top:10px;padding-top:10px;border-top:1px dashed var(--bl);font-size:0.75rem;color:var(--tx)}
 .score-bars{margin:16px 0;text-align:left}
+.score-bars-heading{font-size:0.8125rem;font-weight:600;margin-bottom:10px;color:var(--tx2)}
 .score-bar-item{margin-bottom:10px}
-.score-bar-label{font-size:12px;color:var(--tx2);margin-bottom:3px;display:flex;justify-content:space-between}
-.score-bar-track{height:8px;background:#e0ddd7;border-radius:4px;overflow:hidden}
+.score-bar-label{font-size:0.75rem;color:var(--tx2);margin-bottom:3px;display:flex;justify-content:space-between}
+.score-bar-track{height:8px;background:var(--progress-track);border-radius:4px;overflow:hidden}
 .score-bar-fill{height:100%;border-radius:4px;transition:width .8s}
-.send-status{padding:10px 14px;border-radius:10px;font-size:13px;margin-bottom:12px;line-height:1.5;min-height:44px;display:flex;align-items:center;justify-content:center}
+.send-status{padding:10px 14px;border-radius:10px;font-size:0.8125rem;margin-bottom:12px;line-height:1.5;min-height:44px;display:flex;align-items:center;justify-content:center}
 .send-status.sending{background:var(--ibg);color:var(--itx)}
 .send-status.ok{background:var(--sbg);color:var(--stx)}
 .send-status.err{background:var(--wbg);color:var(--wtx)}
-.btn-restart{width:100%;padding:14px;border:none;border-radius:12px;background:var(--red);color:#fff;font-size:16px;font-weight:700;font-family:inherit;cursor:pointer;margin-top:8px}
-.btn-review{width:100%;padding:14px;border:1.5px solid var(--red);border-radius:12px;background:#fff;color:var(--red);font-size:16px;font-weight:600;font-family:inherit;cursor:pointer;margin-top:8px}
-.review-badge{display:none;padding:4px 12px;border-radius:20px;font-size:12px;margin-bottom:10px;border:1px solid}
+.btn-restart{width:100%;padding:15px 16px;border:none;border-radius:12px;background:var(--red);color:#fff;font-size:1rem;font-weight:700;font-family:inherit;cursor:pointer;margin-top:8px;min-height:48px;touch-action:manipulation}
+.btn-review{width:100%;padding:15px 16px;border:1.5px solid var(--red);border-radius:12px;background:var(--card);color:var(--red);font-size:1rem;font-weight:600;font-family:inherit;cursor:pointer;margin-top:8px;min-height:48px;touch-action:manipulation}
+.review-badge{display:none;padding:4px 12px;border-radius:20px;font-size:0.75rem;margin-bottom:10px;border:1px solid}
 .review-badge.show{display:inline-block}
-.stats-box{background:var(--ibg);border:1px solid var(--ibd);border-radius:12px;padding:14px;margin-bottom:18px;font-size:13px;line-height:1.65;color:var(--itx)}
-.stats-box .stats-summary{font-weight:700;margin-bottom:8px;font-size:14px}
-.stats-box .stats-subhead{font-size:11px;opacity:.9;margin-bottom:8px;color:var(--itx)}
-.stats-box .stats-top-item{padding:8px 0;border-top:1px solid rgba(24,95,165,.2);font-size:13px}
+.stats-box{background:var(--ibg);border:1px solid var(--ibd);border-radius:12px;padding:14px;margin-bottom:18px;font-size:0.8125rem;line-height:1.65;color:var(--itx)}
+.stats-box code{font-size:0.85em;opacity:.92;word-break:break-word}
+.stats-box .stats-summary{font-weight:700;margin-bottom:8px;font-size:0.875rem}
+.stats-box .stats-subhead{font-size:0.6875rem;opacity:.9;margin-bottom:8px;color:var(--itx)}
+.stats-box .stats-top-item{padding:8px 0;border-top:1px solid var(--bl);font-size:0.8125rem}
 .stats-box .stats-top-item:first-of-type{border-top:none;padding-top:0}
-.stats-box .stats-ward{color:var(--tx2);font-size:12px}
-.stats-box .stats-loading,.stats-box .stats-err,.stats-box .stats-empty{font-size:12px;opacity:.95}
+.stats-box .stats-ward{color:var(--tx2);font-size:0.75rem}
+.stats-box .stats-loading,.stats-box .stats-err,.stats-box .stats-empty{font-size:0.75rem;opacity:.95}
 .stats-box .stats-err{color:var(--dtx)}
-.btn-refresh-stats{margin-top:10px;width:100%;padding:8px;border:1px solid var(--ibd);border-radius:8px;background:#fff;color:var(--itx);font-size:12px;font-weight:600;font-family:inherit;cursor:pointer}
+.btn-refresh-stats{margin-top:10px;width:100%;padding:8px;border:1px solid var(--ibd);border-radius:8px;background:var(--card);color:var(--itx);font-size:0.75rem;font-weight:600;font-family:inherit;cursor:pointer}
+.btn-refresh-stats{min-height:44px;touch-action:manipulation}
 .btn-refresh-stats:active{transform:scale(.99)}
+
+/* —— Mobile: จอแคบ / นิ้วสัมผัส —— */
+@media (max-width:480px){
+  .intro-screen{padding-top:14px;padding-bottom:calc(118px + env(safe-area-inset-bottom, 0px))}
+  .intro-card{padding:20px 16px;border-radius:14px}
+  .intro-card h2{font-size:1.0625rem}
+  .field-inp{font-size:1rem;padding:14px 16px;border-radius:12px}
+  .select-wrap::after{right:16px}
+  .case-box{margin-left:max(10px, env(safe-area-inset-left, 0px));margin-right:max(10px, env(safe-area-inset-right, 0px));padding:12px 12px 12px 14px;font-size:0.71875rem}
+  .case-box h2{font-size:0.75rem}
+  .case-tag{font-size:0.625rem;padding:3px 8px}
+  .quiz-wrap{padding-bottom:calc(112px + env(safe-area-inset-bottom, 0px))}
+  .q-card{padding:18px 14px;margin-bottom:10px;border-radius:14px}
+  .q-text{font-size:1rem;line-height:1.55;margin-bottom:12px}
+  .q-hint{font-size:0.8125rem;padding:10px 12px;line-height:1.55}
+  .q-group{font-size:0.625rem}
+  .opt{min-height:48px;padding:14px 16px;font-size:0.9375rem;line-height:1.45;border-radius:12px}
+  .explanation{font-size:0.8125rem;padding:12px;line-height:1.65}
+  .bottom-nav{gap:12px;padding-top:14px}
+  .btn-prev,.btn-next{font-size:0.9375rem;border-radius:14px}
+  .score-screen{padding-top:20px}
+  .score-icon{font-size:3.25rem}
+  .score-big{font-size:clamp(2.5rem,14vw,3.25rem)}
+  .score-title{font-size:clamp(1.125rem,5.5vw,1.375rem)}
+  .score-sub{font-size:0.8125rem;padding:0 4px}
+  .score-name{font-size:0.75rem;padding:8px 12px}
+  .score-case-recap{padding:12px;font-size:0.71875rem;border-radius:10px;margin-left:0;margin-right:0}
+  .score-case-recap h3{font-size:0.75rem}
+  .stats-box{padding:12px;border-radius:10px}
+  .stats-box .stats-summary{font-size:0.8125rem}
+}
+@media (max-width:360px){
+  .header h1{font-size:1rem}
+  .intro-card{padding:18px 14px}
+  .q-card{padding:16px 12px}
+  .opt{font-size:0.875rem}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .opt,.btn-prev,.btn-next,.btn-start,.btn-restart,.btn-review,.progress-fill{transition:none!important}
+  .opt:active,.btn-refresh-stats:active{transform:none}
+}
 </style>
 </head>
 <body>
 
-<div class="header">
-  <h1>🧠 Quiz Stroke Fast Track</h1>
-  <p>โรงพยาบาลสงฆ์ — กลุ่มงานอายุรกรรม</p>
-</div>
+<header class="header">
+  <div class="header-row">
+    <div class="header-text">
+      <h1>🧠 Quiz Stroke Fast Track</h1>
+      <p>โรงพยาบาลสงฆ์ — กลุ่มงานอายุรกรรม</p>
+    </div>
+    <div class="header-actions" role="toolbar" aria-label="การตั้งค่าแสดงผล">
+      <button type="button" class="header-icon-btn" id="btnTheme" title="โหมดสี" aria-label="สลับโหมดสว่าง มืด หรือตามระบบ">🌓</button>
+      <button type="button" class="header-icon-btn" id="btnTextSize" title="ขนาดตัวอักษร" aria-label="ปรับขนาดตัวอักษร">A</button>
+    </div>
+  </div>
+</header>
 
 <!-- INTRO -->
 <div class="intro-screen" id="introScreen">
   <div class="intro-card">
     <h2>ยินดีต้อนรับ 👋</h2>
     <p>กรอกข้อมูลก่อนเริ่มทำแบบทดสอบ<br>10 ข้อ — ใช้เวลาประมาณ 5–10 นาที</p>
-
-    <div class="intro-case">
-      <h3>📋 เคสที่ใช้ในแบบทดสอบ</h3>
-      <span class="case-tag">ชายไทย 68 ปี</span><span class="case-tag">HT+DM+AF</span><span class="case-tag">ใช้ Warfarin</span><br>
-      ขณะนั่งดูทีวี <strong>ญาติเห็น</strong>ผู้ป่วยพูดไม่ชัด ปากเบี้ยว แขนซ้ายอ่อนแรงทันที เวลา <strong>13:00 น.</strong><br>
-      ถึง ER <strong>14:30 น.</strong> · BP 195/105 · CT: No hemorrhage
-    </div>
 
     <div class="field-wrap">
       <div class="field-lbl">ชื่อ-นามสกุล <span style="color:var(--red)">*</span></div>
@@ -148,18 +260,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans Thai',sa
       เริ่มทำแบบทดสอบ →
     </button>
 
-    <div style="font-size:11px;color:var(--tx2);margin-top:14px;text-align:center;line-height:1.6">
+    <div class="intro-footnote">
       🔒 บันทึกเฉพาะชื่อ, Ward และคะแนน เพื่อติดตามการเรียนรู้ของทีม
     </div>
   </div>
 </div>
 
-<!-- CASE BOX -->
+<!-- CASE BOX (เติมเนื้อหาเมื่อเริ่มทำ — สุ่มจาก quiz-cases.js) -->
 <div class="case-box" id="caseBox">
-  <h2>📋 เคสตัวอย่าง</h2>
-  <span class="case-tag">ชายไทย 68 ปี</span><span class="case-tag">HT+DM+AF</span><span class="case-tag">Warfarin</span><br>
-  ขณะนั่งดูทีวี ญาติเห็นผู้ป่วย<strong>พูดไม่ชัด ปากเบี้ยว แขนซ้ายอ่อนแรงทันที เวลา 13:00 น.</strong><br>
-  ถึง ER <strong>14:30 น.</strong> · <strong>BP 195/105</strong> · O₂Sat 96% RA · CT: No hemorrhage
+  <h2>📋 เคสของรอบนี้</h2>
+  <p class="case-placeholder">กดเริ่มทำแบบทดสอบเพื่อสุ่มเคส</p>
 </div>
 
 <div class="progress-wrap" id="progressWrap">
@@ -176,6 +286,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans Thai',sa
   <div class="score-sub" id="scoreSub"></div>
   <div class="score-big" id="scoreBig"></div>
   <div class="score-max" id="scoreMax"></div>
+  <div class="score-case-recap" id="scoreCaseRecap"></div>
   <div id="sendStatus" class="send-status"></div>
   <div class="stats-box" id="statsBox" hidden></div>
   <div class="score-bars" id="scoreBars"></div>
@@ -189,25 +300,120 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans Thai',sa
   <button class="btn-next" id="btnNext" onclick="goNext()" disabled>ถัดไป →</button>
 </div>
 
+<script src="quiz-cases.js"></script>
 <script>
 const SHEET_URL='https://script.google.com/macros/s/AKfycbwYgKjyg9-uEb29HEuNiKLk8mdvc8-jBNgAe-FvCHHkfO0AHDEWanp7J-4WQdWyk_CC/exec';
 const TOKEN='PRH2024STROKE';
+const QUIZ_LEN=10;
 
-const Q=[
-  {g:'กลุ่มที่ 1 — Timeline & Onset',t:'ญาติเห็นผู้ป่วยมีอาการทันทีเวลา 13:00 น. Last Seen Normal (LSN) และ Stroke Onset คือเวลาใด?',h:'Witnessed onset = เห็นเหตุการณ์เอง → LSN = Onset = เวลาที่เห็นอาการทันที',o:['LSN=13:00, Onset=14:30 (เวลาถึง ER)','LSN=Onset=13:00 น. (ญาติเห็นทันที)','LSN=เช้าวันนี้, Onset=ไม่ทราบ','ต้องถามญาติเพิ่ม ยังสรุปไม่ได้'],a:1,e:'Witnessed onset = ญาติเห็นทันที → LSN = Onset = 13:00 น. ต่างจาก Wake-up stroke ที่ไม่รู้เวลา กรณีนี้ชัดเจนมากค่ะ'},
-  {g:'กลุ่มที่ 1 — Timeline & Onset',t:'Stroke onset 13:00 น. ถึง ER 14:30 น. ผู้ป่วยรายนี้อยู่ใน window การรักษาใด?',h:'rt-PA ให้ได้ภายใน 4.5 ชม. จาก onset / Thrombectomy ให้ได้ภายใน 24 ชม.',o:['เกิน window ทุกอย่างแล้ว — conservative เท่านั้น','อยู่ใน rt-PA window (onset 1.5 ชม.) และ Thrombectomy window','อยู่ใน Thrombectomy window เท่านั้น (4.5–24 ชม.)','ยังบอกไม่ได้ รอ CT ก่อน'],a:1,e:'Onset ถึง ER = 1.5 ชม. → อยู่ใน rt-PA window (≤4.5 ชม.) และ Thrombectomy window ด้วย แต่ต้องตรวจ Lab ก่อนตัดสินใจ'},
-  {g:'กลุ่มที่ 2 — NIHSS & อาการ',t:'ถ้าประเมิน NIHSS ได้ 14 คะแนน หมายความว่าอย่างไร?',h:'NIHSS: 1–4=เล็กน้อย / 5–15=ปานกลาง / 16–20=ปานกลาง-รุนแรง / ≥21=รุนแรง',o:['เล็กน้อย — ไม่ต้องรีบ refer','ปานกลาง — เข้าเกณฑ์พิจารณา rt-PA และ Thrombectomy','รุนแรงมาก — ต้อง refer ทันที ห้ามให้ยาใดๆ','ปกติ — ยังไม่เข้าเกณฑ์ใด'],a:1,e:'NIHSS 14 = Moderate → เข้าเกณฑ์พิจารณา rt-PA (ถ้าไม่มี C/I) หรือ Thrombectomy ถ้าสงสัย LVO'},
-  {g:'กลุ่มที่ 2 — NIHSS & อาการ',t:'อาการใดในผู้ป่วยรายนี้บ่งชี้ว่าอาจมี Large Vessel Occlusion (LVO)?',h:'VAN Signs = Aphasia / Neglect / Eye deviation ร่วมกับ NIHSS ≥6 → สงสัย LVO',o:['BP สูง 195/105 mmHg','ประวัติ AF ใช้ Warfarin','พูดไม่ชัด (Aphasia) + แขนซ้ายอ่อนแรง + NIHSS 14','O₂Sat 96% RA'],a:2,e:'Aphasia + motor deficit + NIHSS ≥6 → VAN positive → สงสัย LVO ต้องแจ้งปลายทางเตรียมทีม Thrombectomy'},
-  {g:'กลุ่มที่ 3 — Lab & ข้อห้าม rt-PA',t:'Lab อะไรบ้างที่ต้องรู้ก่อนตัดสินใจให้ rt-PA? (เลือกคำตอบที่ครบที่สุด)',h:'C/I rt-PA: Glucose <50 / Plt <100,000 / INR >1.7 / PT >15 วิ / PTT สูง+Heparin',o:['CBC อย่างเดียวพอ','PT, INR, PTT เท่านั้น','Glucose, Platelet, PT/INR, PTT ครบทุกตัว','รอ CT ก่อน ค่อยเจาะทีหลัง'],a:2,e:'ต้องรู้ครบ: Glucose (C/I <50), Plt (C/I <100,000), INR (C/I >1.7), PT (C/I >15 วิ), PTT — เจาะพร้อม CT เลยค่ะ'},
-  {g:'กลุ่มที่ 3 — Lab & ข้อห้าม rt-PA',t:'ผล INR = 2.1 มีผลต่อการให้ rt-PA อย่างไร? และยังมีทางเลือกอื่นไหม?',h:'INR >1.7 = Absolute Exclusion สำหรับ rt-PA แต่ไม่ใช่ข้อห้ามสำหรับ Thrombectomy',o:['ให้ rt-PA ได้ปกติ INR ต้องสูงกว่า 3.0 ก่อน','ให้ rt-PA ได้แต่ลดขนาดยาครึ่งหนึ่ง','ห้ามให้ rt-PA เด็ดขาด — แต่ยังพิจารณา Refer Thrombectomy ได้','ห้ามให้ทุกอย่าง เพราะ BP สูงด้วย'],a:2,e:'INR >1.7 = C/I rt-PA เด็ดขาด ไม่มีข้อยกเว้น แต่ Thrombectomy ไม่มีข้อห้ามเรื่อง INR → Refer ได้ค่ะ'},
-  {g:'กลุ่มที่ 3 — Lab & ข้อห้าม rt-PA',t:'BP 195/105 mmHg พยาบาลควรทำอย่างไร?',h:'SBP >185 หรือ DBP >110 = C/I rt-PA / ระหว่างรอ refer ให้ Keep BP <180/105 mmHg',o:['ไม่เป็นข้อห้ามใดๆ รอแพทย์สั่งเท่านั้น','เป็น C/I rt-PA — Keep BP <180/105 ระหว่างรอ refer และ monitor ต่อเนื่อง','ลด BP ให้ปกติก่อน แล้วพิจารณาให้ rt-PA ใหม่','ไม่ต้องทำอะไร เพราะไม่ได้ให้ rt-PA อยู่แล้ว'],a:1,e:'SBP >185 = C/I rt-PA ระหว่างรอ refer ให้ Keep BP <180/105 เพื่อลดความเสี่ยง hemorrhagic transformation หลัง Thrombectomy'},
-  {g:'กลุ่มที่ 4 — การเตรียม Refer',t:'ก่อน refer ไปสถาบันประสาทวิทยา พยาบาลต้องเตรียมอะไรบ้าง?',h:'ปลายทางต้องการข้อมูลและสิ่งของครบก่อนรับผู้ป่วย',o:['แค่ตัวผู้ป่วย — ของอื่นส่งทีหลังได้','CD PACs/ภาพ CT, ใบ refer+Lab, ญาติไปด้วย, ใบรับรองสิทธิ, IV line, ยา','ใบ refer อย่างเดียวพอ','รอให้แพทย์เตรียมทุกอย่างให้ครบก่อน'],a:1,e:'ต้องครบ: CD ลง PACs, ใบ refer+Lab, ญาติ, ใบสิทธิ, IV line, ยาประจำตัว — ยิ่งครบ ปลายทางเตรียมทีมได้เร็วขึ้น'},
-  {g:'กลุ่มที่ 5 — การสื่อสาร SBAR',t:'เมื่อโทรประสานสถาบันประสาทวิทยา พยาบาลควรรายงานอะไรบ้าง?',h:'SBAR = Situation / Background / Assessment / Recommendation',o:['ชื่อ อายุ และ ward เท่านั้น','S:อาการที่พบ → B:โรคประจำตัว/ยา → A:NIHSS/CT/Lab → R:ต้องการรับ/เตรียม Thrombectomy','ส่ง LINE ข้อความแทนการโทร','รอให้แพทย์โทรเอง'],a:1,e:'SBAR: S=stroke onset 1.5h / B=HT,DM,AF ใช้ Warfarin / A=NIHSS 14, CT(-), INR 2.1, C/I rt-PA / R=ขอ refer Thrombectomy'},
-  {g:'กลุ่มที่ 5 — การสื่อสาร SBAR',t:'ระบบแสดง "REFER — Thrombectomy (C/I rt-PA)" พยาบาลควรอธิบายญาติว่าอย่างไร?',h:'ญาติมักเข้าใจว่าต้องได้รับ "ยาละลายลิ่มเลือด" เสมอ',o:['"ผู้ป่วยอาการหนักมาก ไม่มีทางรักษาได้แล้ว"','"ยาละลายลิ่มเลือดฉีดตรงๆ ไม่ได้เพราะกินยาป้องกันลิ่มเลือดอยู่ แต่ยังส่งต่อเพื่อสอดสายดูดลิ่มเลือดออกโดยตรงได้ ต้องรีบภายใน 24 ชม."','"ไม่ต้องกังวล รับนอนที่นี่ก่อน ดูอาการไปเรื่อยๆ"','"รอผลเลือดครบก่อน 3–4 ชม. แล้วค่อยตัดสินใจ"'],a:1,e:'"กินยาป้องกันลิ่มเลือดอยู่ ฉีดยาตรงๆ ไม่ได้ค่ะ แต่ยังส่งต่อเพื่อสอดสายเข้าไปดูดลิ่มเลือดออกโดยตรงได้ ต้องทำภายใน 24 ชั่วโมงค่ะ"'},
-];
+function caseTypesRecapHtml(thisRoundLine){
+  var h='<h3>📋 สรุป: แบบทดสอบมี 5 ชุด (เคสคลินิก 4 + NIHSS)</h3>';
+  h+='<p style="margin:0">ทุกครั้งที่กดเริ่ม ระบบจะ<strong>สุ่ม 1 ใน 5 ชุด</strong>ดังนี้:</p>';
+  h+='<p style="margin:8px 0 0"><strong>เคส 1</strong> — Fast Track (มีผู้เห็น onset, Warfarin, BP สูง)<br>';
+  h+='<strong>เคส 2</strong> — Wake-up Stroke (ไม่ทราบ onset ชัด — เน้น LSN; มักใช้ advanced imaging ประกอบทีม; ไม่มี anticoag, BP ปกติ)<br>';
+  h+='<strong>เคส 3</strong> — นอกช่วงเวลา (~2 วัน, อาการเล็กน้อย — แนว conservative)<br>';
+  h+='<strong>เคส 4</strong> — Hemorrhagic stroke / ICH (ปวดหัวเฉียบพลัน, BP สูงมาก, CT เลือดออก basal ganglia)<br>';
+  h+='<strong>NIHSS Training</strong> — แบบฝึกประเมิน NIHSS สองภาษา (พยาบาล)</p>';
+  if(thisRoundLine) h+='<div class="recap-this"><strong>รอบนี้:</strong> '+thisRoundLine+'</div>';
+  return h;
+}
 
-let cur=0,ans=new Array(Q.length).fill(null),rev=false;
+let Q=[];
+let activeCase=null;
+let cur=0,ans=new Array(QUIZ_LEN).fill(null),rev=false;
 let userName='',userWard='';
+
+const THEME_KEY='strokeQuiz_theme';
+const TEXT_KEY='strokeQuiz_text';
+function getTheme(){
+  var t=document.documentElement.getAttribute('data-theme');
+  return t==='dark'||t==='auto'?t:'light';
+}
+function cycleTheme(){
+  var t=getTheme();
+  var next=t==='light'?'dark':t==='dark'?'auto':'light';
+  if(next==='light'){
+    document.documentElement.removeAttribute('data-theme');
+    try{ localStorage.setItem(THEME_KEY,'light'); }catch(e){}
+  }else{
+    document.documentElement.setAttribute('data-theme',next);
+    try{ localStorage.setItem(THEME_KEY,next); }catch(e){}
+  }
+  updateThemeColorMeta();
+  updateDisplayButtons();
+}
+function cycleTextSize(){
+  var tx=document.documentElement.getAttribute('data-text')||'';
+  var next=tx===''?'1':tx==='1'?'2':'';
+  if(next) document.documentElement.setAttribute('data-text',next);
+  else document.documentElement.removeAttribute('data-text');
+  try{
+    if(next) localStorage.setItem(TEXT_KEY,next);
+    else localStorage.removeItem(TEXT_KEY);
+  }catch(e){}
+  updateDisplayButtons();
+}
+function getEffectiveDark(){
+  var t=document.documentElement.getAttribute('data-theme');
+  if(t==='dark') return true;
+  if(t==='light'||!t) return false;
+  try{ return window.matchMedia('(prefers-color-scheme: dark)').matches; }catch(e){ return false; }
+}
+function updateThemeColorMeta(){
+  var m=document.querySelector('meta[name="theme-color"]');
+  if(m) m.content=getEffectiveDark()?'#121211':'#C41E3A';
+}
+function updateDisplayButtons(){
+  var t=getTheme();
+  var bt=document.getElementById('btnTheme');
+  var bx=document.getElementById('btnTextSize');
+  if(bt){
+    if(t==='dark'){
+      bt.textContent='🌙';
+      bt.title='โหมดมืด — แตะเพื่อตามระบบ';
+      bt.setAttribute('aria-label','โหมดมืด แตะเพื่อสลับเป็นตามระบบ');
+    }else if(t==='auto'){
+      bt.textContent='🌓';
+      bt.title='ตามระบบ — แตะเพื่อโหมดสว่าง';
+      bt.setAttribute('aria-label','ตามระบบ แตะเพื่อสลับเป็นโหมดสว่าง');
+    }else{
+      bt.textContent='🌞';
+      bt.title='โหมดสว่าง — แตะเพื่อโหมดมืด';
+      bt.setAttribute('aria-label','โหมดสว่าง แตะเพื่อสลับเป็นโหมดมืด');
+    }
+  }
+  if(bx){
+    var tx=document.documentElement.getAttribute('data-text')||'';
+    if(tx==='2'){
+      bx.textContent='A++';
+      bx.title='ตัวใหญ่มาก — แตะเพื่อขนาดเริ่มต้น';
+      bx.setAttribute('aria-label','ตัวใหญ่มาก แตะเพื่อขนาดเริ่มต้น');
+    }else if(tx==='1'){
+      bx.textContent='A+';
+      bx.title='ตัวใหญ่ — แตะเพื่อใหญ่ขึ้นอีก';
+      bx.setAttribute('aria-label','ตัวใหญ่ แตะเพื่อขยายอีก');
+    }else{
+      bx.textContent='A';
+      bx.title='ขนาดเริ่มต้น — แตะเพื่อขยายตัวอักษร';
+      bx.setAttribute('aria-label','ขนาดเริ่มต้น แตะเพื่อขยายตัวอักษร');
+    }
+  }
+}
+function initDisplayPrefs(){
+  updateThemeColorMeta();
+  updateDisplayButtons();
+  var bt=document.getElementById('btnTheme');
+  var bx=document.getElementById('btnTextSize');
+  if(bt) bt.addEventListener('click',cycleTheme);
+  if(bx) bx.addEventListener('click',cycleTextSize);
+  try{
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change',function(){
+      if(document.documentElement.getAttribute('data-theme')==='auto') updateThemeColorMeta();
+    });
+  }catch(e){}
+}
+if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',initDisplayPrefs);
+else initDisplayPrefs();
 
 // ===== สถิติจาก Sheet (JSONP — หลีกเลี่ยง CORS ของ Google Apps Script) =====
 function escapeHtml(s){
@@ -294,10 +500,21 @@ function getWardValue(){
   return w;
 }
 
+function mountCaseBox(c){
+  document.getElementById('caseBox').innerHTML='<h2>📋 เคสของรอบนี้: '+c.title+'</h2>'+c.caseHtml;
+}
+
 function startQuiz(){
+  if(typeof CASE_BANK==='undefined'||!CASE_BANK||!CASE_BANK.length){
+    alert('โหลดไฟล์ quiz-cases.js ไม่สำเร็จ — ตรวจสอบว่าเปิดหน้าเว็บจากโฟลเดอร์เดียวกับไฟล์นี้');
+    return;
+  }
   userName=document.getElementById('inputName').value.trim();
   userWard=getWardValue();
+  activeCase=CASE_BANK[Math.floor(Math.random()*CASE_BANK.length)];
+  Q=activeCase.questions;
   cur=0;ans=new Array(Q.length).fill(null);rev=false;
+  mountCaseBox(activeCase);
   document.getElementById('introScreen').style.display='none';
   ['caseBox','progressWrap','quizWrap'].forEach(id=>document.getElementById(id).style.display='block');
   document.getElementById('bottomNav').style.display='flex';
@@ -305,6 +522,7 @@ function startQuiz(){
 }
 
 function render(){
+  if(!Q.length)return;
   const q=Q[cur],done=ans[cur]!==null;
   document.getElementById('progressFill').style.width=((cur+1)/Q.length*100)+'%';
   document.getElementById('progressLabel').textContent='ข้อ '+(cur+1)+' / '+Q.length;
@@ -340,14 +558,15 @@ async function showScore(){
   if(pct<60){icon='📚';title='ต้องทบทวนเพิ่มเติม';sub='ลองอ่าน guideline แล้วทำใหม่อีกครั้งนะคะ';}
   else if(pct<80){icon='👍';title='ทำได้ดี!';sub='เข้าใจ workflow ส่วนใหญ่ มีจุดที่ควรทบทวนเล็กน้อย';}
   document.getElementById('scoreIcon').textContent=icon;
-  document.getElementById('scoreName').textContent='👤 '+userName+' · 🏥 '+userWard;
+  document.getElementById('scoreName').textContent='👤 '+userName+' · 🏥 '+userWard+(activeCase?' · 📋 '+activeCase.shortTitle:'');
   document.getElementById('scoreTitle').textContent=title;
   document.getElementById('scoreSub').textContent=sub;
   document.getElementById('scoreBig').textContent=correct;
   document.getElementById('scoreMax').textContent='/ '+Q.length+' ข้อ ('+pct+'%)';
+  document.getElementById('scoreCaseRecap').innerHTML=caseTypesRecapHtml(activeCase?activeCase.title:'');
   const grp={};
   Q.forEach((q,i)=>{if(!grp[q.g])grp[q.g]={t:0,c:0};grp[q.g].t++;if(ans[i]===q.a)grp[q.g].c++;});
-  let b='<div style="font-size:13px;font-weight:600;margin-bottom:10px;color:var(--tx2)">คะแนนแยกตามกลุ่ม</div>';
+  let b='<div class="score-bars-heading">คะแนนแยกตามกลุ่ม</div>';
   Object.entries(grp).forEach(([g,v])=>{
     const gp=Math.round(v.c/v.t*100),col=gp>=80?'#639922':gp>=60?'#E85D04':'#C41E3A';
     b+='<div class="score-bar-item"><div class="score-bar-label"><span>'+g.replace('กลุ่มที่ ','กลุ่ม ')+'</span><span style="color:'+col+'">'+v.c+'/'+v.t+'</span></div><div class="score-bar-track"><div class="score-bar-fill" style="width:'+gp+'%;background:'+col+'"></div></div></div>';
@@ -386,7 +605,7 @@ function startReview(){
 }
 
 function restart(){
-  rev=false;cur=0;ans=new Array(Q.length).fill(null);userName='';userWard='';
+  rev=false;cur=0;ans=new Array(Q.length||QUIZ_LEN).fill(null);userName='';userWard='';activeCase=null;
   ['caseBox','progressWrap','quizWrap','bottomNav'].forEach(id=>document.getElementById(id).style.display='none');
   document.getElementById('scoreScreen').style.display='none';
   document.getElementById('introScreen').style.display='block';
