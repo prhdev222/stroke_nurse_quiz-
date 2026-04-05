@@ -19,26 +19,28 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans Thai',sa
 .header h1{font-size:20px;font-weight:800;margin-bottom:4px}
 .header p{font-size:13px;opacity:.85}
 
-/* INTRO SCREEN */
+/* INTRO */
 .intro-screen{padding:20px 16px 100px}
 .intro-card{background:var(--card);border-radius:16px;padding:24px 20px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
-.intro-card h2{font-size:18px;font-weight:800;margin-bottom:6px}
+.intro-card h2{font-size:18px;font-weight:800;margin-bottom:6px;color:var(--red)}
 .intro-card p{font-size:13px;color:var(--tx2);margin-bottom:20px;line-height:1.7}
 .intro-case{background:#FFF8E7;border-left:4px solid #E85D04;padding:14px;border-radius:10px;font-size:13px;line-height:1.8;margin-bottom:20px}
 .intro-case h3{font-size:13px;font-weight:700;color:#7B3C00;margin-bottom:6px}
 .case-tag{display:inline-block;background:#E85D04;color:#fff;font-size:11px;padding:2px 8px;border-radius:10px;margin-right:4px;margin-bottom:4px}
 .field-lbl{font-size:12px;color:var(--tx2);margin-bottom:5px;font-weight:600}
-.field-inp{width:100%;padding:12px 14px;border:1.5px solid var(--bl);border-radius:10px;font-size:15px;font-family:inherit;background:var(--bg);color:var(--tx);margin-bottom:14px}
-.field-inp:focus{outline:none;border-color:#378ADD;box-shadow:0 0 0 2px rgba(55,138,221,.15)}
-.ward-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
-.ward-btn{padding:10px;border:1.5px solid var(--bl);border-radius:10px;background:var(--bg);font-size:13px;font-family:inherit;cursor:pointer;color:var(--tx);transition:all .15s;text-align:center}
-.ward-btn.sel{background:var(--ibg);border-color:var(--ibd);color:var(--itx);font-weight:700}
+.field-wrap{margin-bottom:16px}
+.field-inp{width:100%;padding:12px 14px;border:1.5px solid var(--bl);border-radius:10px;font-size:15px;font-family:inherit;background:var(--bg);color:var(--tx);outline:none;appearance:none;-webkit-appearance:none}
+.field-inp:focus{border-color:var(--red);box-shadow:0 0 0 2px rgba(196,30,58,.1)}
+.select-wrap{position:relative}
+.select-wrap::after{content:'▾';position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--tx2);pointer-events:none;font-size:14px}
 .btn-start{width:100%;padding:14px;border:none;border-radius:12px;background:var(--red);color:#fff;font-size:16px;font-weight:700;font-family:inherit;cursor:pointer;margin-top:4px}
 .btn-start:disabled{opacity:.4;cursor:not-allowed}
 
-/* QUIZ */
+/* CASE BOX */
 .case-box{background:#FFF8E7;border-left:4px solid #E85D04;margin:16px;padding:14px;border-radius:12px;font-size:12px;line-height:1.8;display:none}
 .case-box h2{font-size:13px;font-weight:700;color:#7B3C00;margin-bottom:6px}
+
+/* QUIZ */
 .progress-wrap{padding:10px 16px 0;display:none}
 .progress-bar{height:6px;background:#e0ddd7;border-radius:3px;overflow:hidden;margin-bottom:4px}
 .progress-fill{height:100%;background:var(--red);border-radius:3px;transition:width .4s}
@@ -60,7 +62,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans Thai',sa
 .explanation.correct-exp{background:var(--sbg);color:var(--stx);border:1px solid var(--sbd)}
 .explanation.wrong-exp{background:var(--wbg);color:var(--wtx);border:1px solid var(--wbd)}
 
-/* BOTTOM NAV */
+/* NAV */
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--bl);padding:12px 16px;display:none;gap:10px}
 .btn-prev{flex:1;padding:12px;border:1.5px solid var(--bl);border-radius:12px;background:var(--bg);font-size:14px;font-family:inherit;cursor:pointer;color:var(--tx2)}
 .btn-next{flex:2;padding:12px;border:none;border-radius:12px;background:var(--red);color:#fff;font-size:14px;font-weight:700;font-family:inherit;cursor:pointer}
@@ -69,8 +71,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans Thai',sa
 /* SCORE */
 .score-screen{display:none;padding:24px 16px 40px;text-align:center;max-width:500px;margin:0 auto}
 .score-icon{font-size:60px;margin-bottom:12px}
-.score-name{font-size:13px;color:var(--tx2);margin-bottom:4px}
-.score-title{font-size:22px;font-weight:800;margin-bottom:6px}
+.score-name{font-size:13px;color:var(--tx2);margin-bottom:4px;padding:4px 12px;background:var(--bg2);border-radius:20px;display:inline-block}
+.score-title{font-size:22px;font-weight:800;margin-bottom:6px;margin-top:8px}
 .score-sub{font-size:14px;color:var(--tx2);margin-bottom:16px}
 .score-big{font-size:52px;font-weight:900;color:var(--red);margin-bottom:2px}
 .score-max{font-size:16px;color:var(--tx2);margin-bottom:16px}
@@ -79,10 +81,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans Thai',sa
 .score-bar-label{font-size:12px;color:var(--tx2);margin-bottom:3px;display:flex;justify-content:space-between}
 .score-bar-track{height:8px;background:#e0ddd7;border-radius:4px;overflow:hidden}
 .score-bar-fill{height:100%;border-radius:4px;transition:width .8s}
-.send-status{padding:10px 14px;border-radius:10px;font-size:13px;margin-bottom:12px;line-height:1.5}
+.send-status{padding:10px 14px;border-radius:10px;font-size:13px;margin-bottom:12px;line-height:1.5;min-height:44px}
 .send-status.sending{background:var(--ibg);color:var(--itx)}
 .send-status.ok{background:var(--sbg);color:var(--stx)}
-.send-status.err{background:var(--dbg);color:var(--dtx)}
+.send-status.err{background:var(--wbg);color:var(--wtx)}
 .btn-restart{width:100%;padding:14px;border:none;border-radius:12px;background:var(--red);color:#fff;font-size:16px;font-weight:700;font-family:inherit;cursor:pointer;margin-top:8px}
 .btn-review{width:100%;padding:14px;border:1.5px solid var(--red);border-radius:12px;background:#fff;color:var(--red);font-size:16px;font-weight:600;font-family:inherit;cursor:pointer;margin-top:8px}
 .review-badge{display:none;padding:4px 12px;border-radius:20px;font-size:12px;margin-bottom:10px;border:1px solid}
@@ -99,8 +101,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans Thai',sa
 <!-- INTRO SCREEN -->
 <div class="intro-screen" id="introScreen">
   <div class="intro-card">
-    <h2>ก่อนเริ่มทำ Quiz</h2>
-    <p>กรอกชื่อและ Ward ของคุณ — ข้อมูลจะถูกบันทึกเพื่อติดตามการเรียนรู้ของทีมเท่านั้น</p>
+    <h2>ยินดีต้อนรับ 👋</h2>
+    <p>กรอกข้อมูลก่อนเริ่มทำแบบทดสอบ<br>10 ข้อ — ใช้เวลาประมาณ 5–10 นาที</p>
 
     <div class="intro-case">
       <h3>📋 เคสที่ใช้ในแบบทดสอบ</h3>
@@ -109,24 +111,44 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans Thai',sa
       ถึง ER <strong>14:30 น.</strong> · BP 195/105 · CT Brain: No hemorrhage
     </div>
 
-    <div class="field-lbl">ชื่อ-นามสกุล <span style="color:var(--red)">*</span></div>
-    <input class="field-inp" id="inputName" placeholder="เช่น นางสาวสมใจ ใจดี" oninput="checkReady()">
-
-    <div class="field-lbl">Ward / หน่วยงาน <span style="color:var(--red)">*</span></div>
-    <div class="ward-grid" id="wardGrid">
-      <button class="ward-btn" onclick="selectWard(this,'ER')">ER</button>
-      <button class="ward-btn" onclick="selectWard(this,'ICU')">ICU</button>
-      <button class="ward-btn" onclick="selectWard(this,'อายุรกรรม')">อายุรกรรม</button>
-      <button class="ward-btn" onclick="selectWard(this,'ศัลยกรรม')">ศัลยกรรม</button>
-      <button class="ward-btn" onclick="selectWard(this,'อื่นๆ')">อื่นๆ</button>
+    <div class="field-wrap">
+      <div class="field-lbl">ชื่อ-นามสกุล <span style="color:var(--red)">*</span></div>
+      <input class="field-inp" id="inputName" placeholder="เช่น นางสาวสมใจ ใจดี" oninput="checkReady()">
     </div>
-    <input class="field-inp" id="inputWard" placeholder="หรือพิมพ์ Ward เอง..." oninput="checkReady()" style="margin-top:-6px">
 
-    <button class="btn-start" id="btnStart" onclick="startQuiz()" disabled>เริ่มทำแบบทดสอบ →</button>
+    <div class="field-wrap">
+      <div class="field-lbl">Ward / หน่วยงาน <span style="color:var(--red)">*</span></div>
+      <div class="select-wrap">
+        <select class="field-inp" id="inputWard" onchange="checkReady()">
+          <option value="">— เลือก Ward / หน่วยงาน —</option>
+          <option value="MED1">MED1</option>
+          <option value="MED2">MED2</option>
+          <option value="Surg">Surg</option>
+          <option value="Ortho">Ortho</option>
+          <option value="ENT">ENT</option>
+          <option value="EYE">EYE</option>
+          <option value="ER">ER</option>
+          <option value="OPD med">OPD med</option>
+          <option value="OPD surg">OPD surg</option>
+          <option value="OPD ENT">OPD ENT</option>
+          <option value="OPD ortho">OPD ortho</option>
+          <option value="LAB">LAB</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+    </div>
+
+    <button class="btn-start" id="btnStart" onclick="startQuiz()" disabled>
+      เริ่มทำแบบทดสอบ →
+    </button>
+
+    <div style="font-size:11px;color:var(--tx2);margin-top:14px;text-align:center;line-height:1.6">
+      🔒 บันทึกเฉพาะชื่อ, Ward และคะแนน เพื่อติดตามการเรียนรู้ของทีม
+    </div>
   </div>
 </div>
 
-<!-- CASE BOX (show during quiz) -->
+<!-- CASE BOX (during quiz) -->
 <div class="case-box" id="caseBox">
   <h2>📋 เคสตัวอย่าง</h2>
   <span class="case-tag">ชายไทย 68 ปี</span><span class="case-tag">HT+DM+AF</span><span class="case-tag">Warfarin</span><br>
@@ -149,7 +171,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans Thai',sa
   <div class="score-sub" id="scoreSub"></div>
   <div class="score-big" id="scoreBig"></div>
   <div class="score-max" id="scoreMax"></div>
-  <div id="sendStatus"></div>
+  <div id="sendStatus" class="send-status"></div>
   <div class="score-bars" id="scoreBars"></div>
   <button class="btn-review" onclick="startReview()">🔍 ดูเฉลยทั้งหมด</button>
   <button class="btn-restart" onclick="restart()">🔄 ทำใหม่อีกครั้ง</button>
@@ -162,8 +184,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans Thai',sa
 </div>
 
 <script>
-const SHEET_URL = 'https://script.google.com/macros/s/AKfycbxoVf3CKVBHvLcC01mZR87fbfkOHLPCREcbHgzhx8O8o95MltWKTF3mdseARm7wJHlq/exec';
+// ===== CONFIG =====
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbzP-3zhnZfugysOYEmGstpCZYDXCOJyFICx9GhXwDhG4iaiIf5dOXoZF8Ajhu_ziSSR/exec';
+const TOKEN = 'PRH2024STROKE';
 
+// ===== QUESTIONS =====
 const Q=[
   {g:'กลุ่มที่ 1 — Timeline & Onset',t:'ญาติเห็นผู้ป่วยมีอาการทันทีเวลา 13:00 น. Last Seen Normal (LSN) และ Stroke Onset คือเวลาใด?',h:'Witnessed onset = เห็นเหตุการณ์เอง → LSN = Onset = เวลาที่เห็นอาการทันที',o:['LSN=13:00, Onset=14:30 (เวลาถึง ER)','LSN=Onset=13:00 น. (ญาติเห็นทันที)','LSN=เช้าวันนี้, Onset=ไม่ทราบ','ต้องถามญาติเพิ่ม ยังสรุปไม่ได้'],a:1,e:'Witnessed onset = ญาติเห็นทันที → LSN = Onset = 13:00 น. ต่างจาก Wake-up stroke ที่ไม่รู้เวลา กรณีนี้ชัดเจนมากค่ะ'},
   {g:'กลุ่มที่ 1 — Timeline & Onset',t:'Stroke onset 13:00 น. ถึง ER 14:30 น. ผู้ป่วยรายนี้อยู่ใน window การรักษาใด?',h:'rt-PA ให้ได้ภายใน 4.5 ชม. จาก onset / Thrombectomy ให้ได้ภายใน 24 ชม.',o:['เกิน window ทุกอย่างแล้ว — conservative เท่านั้น','อยู่ใน rt-PA window (onset 1.5 ชม.) และ Thrombectomy window','อยู่ใน Thrombectomy window เท่านั้น (4.5–24 ชม.)','ยังบอกไม่ได้ รอ CT ก่อน'],a:1,e:'Onset ถึง ER = 13:00–14:30 = 1.5 ชม. → อยู่ใน rt-PA window (≤4.5 ชม.) และ Thrombectomy window ด้วย แต่ต้องตรวจ Lab ก่อนตัดสินใจ'},
@@ -177,36 +202,32 @@ const Q=[
   {g:'กลุ่มที่ 5 — การสื่อสาร SBAR',t:'ระบบแสดง "REFER — Thrombectomy (C/I rt-PA)" พยาบาลควรอธิบายญาติว่าอย่างไร?',h:'ญาติมักเข้าใจว่าต้องได้รับ "ยาละลายลิ่มเลือด" เสมอ',o:['"ผู้ป่วยอาการหนักมาก ไม่มีทางรักษาได้แล้ว"','"ยาละลายลิ่มเลือดฉีดตรงๆ ไม่ได้เพราะกินยาป้องกันลิ่มเลือดอยู่ แต่ยังส่งต่อเพื่อสอดสายดูดลิ่มเลือดออกโดยตรงได้ ต้องรีบภายใน 24 ชม."','"ไม่ต้องกังวล รับนอนที่นี่ก่อน ดูอาการไปเรื่อยๆ"','"รอผลเลือดครบก่อน 3–4 ชม. แล้วค่อยตัดสินใจ"'],a:1,e:'"กินยาป้องกันลิ่มเลือดอยู่ ฉีดยาตรงๆ ไม่ได้ค่ะ แต่ยังส่งต่อเพื่อสอดสายเข้าไปดูดลิ่มเลือดออกโดยตรงได้ ต้องทำภายใน 24 ชั่วโมงค่ะ"'},
 ];
 
+// ===== STATE =====
 let cur=0, ans=new Array(Q.length).fill(null), rev=false;
 let userName='', userWard='';
 
-// ── INTRO ──
-function selectWard(btn, ward) {
-  document.querySelectorAll('.ward-btn').forEach(b=>b.classList.remove('sel'));
-  btn.classList.add('sel');
-  document.getElementById('inputWard').value = ward;
-  checkReady();
-}
-function checkReady() {
-  const name = document.getElementById('inputName').value.trim();
-  const ward = document.getElementById('inputWard').value.trim();
-  document.getElementById('btnStart').disabled = !(name && ward);
-}
-function startQuiz() {
-  userName = document.getElementById('inputName').value.trim();
-  userWard = document.getElementById('inputWard').value.trim();
-  document.getElementById('introScreen').style.display = 'none';
-  document.getElementById('caseBox').style.display = 'block';
-  document.getElementById('progressWrap').style.display = 'block';
-  document.getElementById('quizWrap').style.display = 'block';
-  document.getElementById('bottomNav').style.display = 'flex';
-  cur=0; ans=new Array(Q.length).fill(null); rev=false;
-  render(); scrollTo(0,0);
+// ===== INTRO =====
+function checkReady(){
+  const n=document.getElementById('inputName').value.trim();
+  const w=document.getElementById('inputWard').value;
+  document.getElementById('btnStart').disabled=!(n&&w);
 }
 
-// ── QUIZ ──
+function startQuiz(){
+  userName=document.getElementById('inputName').value.trim();
+  userWard=document.getElementById('inputWard').value;
+  document.getElementById('introScreen').style.display='none';
+  document.getElementById('caseBox').style.display='block';
+  document.getElementById('progressWrap').style.display='block';
+  document.getElementById('quizWrap').style.display='block';
+  document.getElementById('bottomNav').style.display='flex';
+  cur=0;ans=new Array(Q.length).fill(null);rev=false;
+  render();scrollTo(0,0);
+}
+
+// ===== QUIZ =====
 function render(){
-  const q=Q[cur], done=ans[cur]!==null;
+  const q=Q[cur],done=ans[cur]!==null;
   document.getElementById('progressFill').style.width=((cur+1)/Q.length*100)+'%';
   document.getElementById('progressLabel').textContent='ข้อ '+(cur+1)+' / '+Q.length;
   let h='<div class="q-card">';
@@ -237,24 +258,20 @@ function pick(i){if(ans[cur]!==null)return;ans[cur]=i;render();}
 function goNext(){if(cur<Q.length-1){cur++;render();scrollTo(0,0);}}
 function goBack(){if(cur>0){cur--;render();scrollTo(0,0);}}
 
-// ── SCORE + SEND TO SHEET ──
+// ===== SCORE + SEND =====
 async function showScore(){
-  ['caseBox','progressWrap','quizWrap','bottomNav'].forEach(id=>{
-    document.getElementById(id).style.display='none';
-  });
+  ['caseBox','progressWrap','quizWrap','bottomNav'].forEach(id=>document.getElementById(id).style.display='none');
   document.getElementById('scoreScreen').style.display='block';
   const correct=ans.filter((a,i)=>a===Q[i].a).length, pct=Math.round(correct/Q.length*100);
   let icon='🏆',title='ยอดเยี่ยม!',sub='เข้าใจ Stroke Fast Track ได้เป็นอย่างดีค่ะ';
   if(pct<60){icon='📚';title='ต้องทบทวนเพิ่มเติม';sub='ลองอ่าน guideline แล้วทำใหม่อีกครั้งนะคะ';}
   else if(pct<80){icon='👍';title='ทำได้ดี!';sub='เข้าใจ workflow ส่วนใหญ่ มีจุดที่ควรทบทวนเล็กน้อย';}
   document.getElementById('scoreIcon').textContent=icon;
-  document.getElementById('scoreName').textContent=userName+' · '+userWard;
+  document.getElementById('scoreName').textContent='👤 '+userName+' · 🏥 '+userWard;
   document.getElementById('scoreTitle').textContent=title;
   document.getElementById('scoreSub').textContent=sub;
   document.getElementById('scoreBig').textContent=correct;
   document.getElementById('scoreMax').textContent='/ '+Q.length+' ข้อ ('+pct+'%)';
-
-  // Group bars
   const grp={};
   Q.forEach((q,i)=>{if(!grp[q.g])grp[q.g]={t:0,c:0};grp[q.g].t++;if(ans[i]===q.a)grp[q.g].c++;});
   let b='<div style="font-size:13px;font-weight:600;margin-bottom:10px;color:var(--tx2)">คะแนนแยกตามกลุ่ม</div>';
@@ -264,26 +281,35 @@ async function showScore(){
   });
   document.getElementById('scoreBars').innerHTML=b;
 
-  // Send to Google Sheet
-  if(!rev){
-    const statusEl=document.getElementById('sendStatus');
-    statusEl.className='send-status sending';
-    statusEl.textContent='⏳ กำลังบันทึกผลไปยัง Google Sheet...';
-    try{
-      await fetch(SHEET_URL,{
-        method:'POST',
-        mode:'no-cors',
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({name:userName,ward:userWard,score:correct,total:Q.length})
-      });
-      statusEl.className='send-status ok';
-      statusEl.textContent='✅ บันทึกผลสำเร็จ — ขอบคุณที่ร่วมทำแบบทดสอบค่ะ';
-    }catch(e){
-      statusEl.className='send-status err';
-      statusEl.textContent='⚠ ไม่สามารถบันทึกผลได้ตอนนี้ (ตรวจสอบการเชื่อมต่อ)';
-    }
-  }
+  // ส่งไป Google Sheet (เฉพาะครั้งแรก ไม่ส่งตอน review)
+  if(!rev) await sendToSheet(correct, Q.length, pct);
   scrollTo(0,0);
+}
+
+async function sendToSheet(score,total,pct){
+  const st=document.getElementById('sendStatus');
+  st.className='send-status sending';
+  st.textContent='⏳ กำลังบันทึกผลไปยัง Google Sheet...';
+  try{
+    await fetch(SHEET_URL,{
+      method:'POST',
+      mode:'no-cors',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        token: TOKEN,
+        name: userName,
+        ward: userWard,
+        score: score,
+        total: total,
+        pct: pct
+      })
+    });
+    st.className='send-status ok';
+    st.textContent='✅ บันทึกผลสำเร็จแล้ว — ขอบคุณที่ร่วมทำแบบทดสอบค่ะ';
+  }catch(e){
+    st.className='send-status err';
+    st.textContent='⚠ บันทึกไม่สำเร็จ — ตรวจสอบการเชื่อมต่ออินเทอร์เน็ต';
+  }
 }
 
 function startReview(){
@@ -293,16 +319,15 @@ function startReview(){
   document.getElementById('scoreScreen').style.display='none';
   render();scrollTo(0,0);
 }
+
 function restart(){
   rev=false;cur=0;ans=new Array(Q.length).fill(null);
   userName='';userWard='';
-  ['caseBox','progressWrap','quizWrap'].forEach(id=>document.getElementById(id).style.display='none');
-  document.getElementById('bottomNav').style.display='none';
+  ['caseBox','progressWrap','quizWrap','bottomNav'].forEach(id=>document.getElementById(id).style.display='none');
   document.getElementById('scoreScreen').style.display='none';
   document.getElementById('introScreen').style.display='block';
   document.getElementById('inputName').value='';
   document.getElementById('inputWard').value='';
-  document.querySelectorAll('.ward-btn').forEach(b=>b.classList.remove('sel'));
   document.getElementById('btnStart').disabled=true;
   scrollTo(0,0);
 }
