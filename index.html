@@ -93,7 +93,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans Thai',sa
 .field-inp:focus{border-color:var(--red);box-shadow:0 0 0 3px var(--focus-ring)}
 .select-wrap{position:relative}
 .select-wrap::after{content:'▾';position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--tx2);pointer-events:none;font-size:0.875rem}
-/* other input */
 #otherWardWrap{display:none;margin-top:8px}
 #otherWardWrap .field-inp{border-color:var(--wbd);background:var(--wbg)}
 #otherWardWrap .field-inp:focus{border-color:var(--red)}
@@ -164,7 +163,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans Thai',sa
 .btn-refresh-stats{min-height:44px;touch-action:manipulation}
 .btn-refresh-stats:active{transform:scale(.99)}
 
-/* —— Mobile: จอแคบ / นิ้วสัมผัส —— */
 @media (max-width:480px){
   .intro-screen{padding-top:14px;padding-bottom:calc(118px + env(safe-area-inset-bottom, 0px))}
   .intro-card{padding:20px 16px;border-radius:14px}
@@ -248,7 +246,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans Thai',sa
           <option value="Other">Other ระบุเอง</option>
         </select>
       </div>
-      <!-- ช่องกรอกเพิ่ม เมื่อเลือก Other -->
       <div id="otherWardWrap">
         <input class="field-inp" id="inputOtherWard"
           placeholder="ระบุหน่วยงาน เช่น ICU, Cardio, X-ray..."
@@ -266,7 +263,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans Thai',sa
   </div>
 </div>
 
-<!-- CASE BOX (เติมเนื้อหาเมื่อเริ่มทำ — สุ่มจาก quiz-cases.js) -->
+<!-- CASE BOX -->
 <div class="case-box" id="caseBox">
   <h2>📋 เคสของรอบนี้</h2>
   <p class="case-placeholder">กดเริ่มทำแบบทดสอบเพื่อสุ่มเคส</p>
@@ -415,41 +412,68 @@ function initDisplayPrefs(){
 if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',initDisplayPrefs);
 else initDisplayPrefs();
 
-// ===== สถิติจาก Sheet (JSONP — หลีกเลี่ยง CORS ของ Google Apps Script) =====
+// ===== สถิติจาก Sheet =====
 function escapeHtml(s){
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
 }
-function renderStatsBox(data){
+
+function myResultHtml(curName,curWard,curScore,curTotal,curPct){
+  if(!curName) return '';
+  return '<div style="background:var(--sbg);border:1px solid var(--sbd);border-radius:8px;padding:10px 12px;margin-bottom:10px;font-size:0.8125rem;color:var(--stx);line-height:1.6">'+
+    '✅ <strong>บันทึกแล้ว:</strong> '+escapeHtml(curName)+
+    ' <span style="opacity:.75">· '+escapeHtml(curWard||'—')+'</span><br>'+
+    'คะแนนรอบนี้ <strong>'+curScore+'/'+curTotal+'</strong> ข้อ ('+curPct+'%)</div>';
+}
+
+function renderStatsBox(data,curName,curWard,curScore,curTotal,curPct){
   const box=document.getElementById('statsBox');
   if(!box) return;
   box.hidden=false;
+  const myHtml=myResultHtml(curName,curWard,curScore,curTotal,curPct);
   if(!data||!data.ok){
-    box.innerHTML='<div class="stats-err">โหลดสถิติไม่ได้ — ต้องเพิ่ม <code>doGet</code> ใน Google Apps Script ตามไฟล์ <code>google-apps-script/doGet-stats.gs</code> แล้ว Deploy เว็บแอปใหม่</div>';
+    box.innerHTML=myHtml+
+      '<div class="stats-err">โหลดสถิติทีมไม่ได้ — ตรวจสอบ Apps Script</div>'+
+      '<button type="button" class="btn-refresh-stats" onclick="loadStats()">↻ ลองใหม่</button>';
     return;
   }
   const total=data.total??0;
   const top=data.topTwo||[];
+  const recent=data.recent||[];
   let rows='';
   if(top.length===0){
-    rows='<div class="stats-empty">ยังไม่มีผู้ทำแบบทดสอบในชีต</div>';
+    rows='<div class="stats-empty">ยังไม่มีข้อมูลในชีต</div>';
   }else{
     top.forEach((r,i)=>{
       rows+='<div class="stats-top-item"><strong>อันดับ '+(i+1)+'</strong> '+escapeHtml(r.name)+' <span class="stats-ward">· '+escapeHtml(r.ward||'—')+'</span><br>'+r.score+' / '+r.total+' ข้อ ('+r.pct+'%)</div>';
     });
   }
-  box.innerHTML='<div class="stats-summary">ผู้ทำแบบทดสอบทั้งหมด <strong>'+total+'</strong> คน</div>'+
-    '<div class="stats-subhead">คะแนนสูงสุด 2 อันดับ (ถ้าคะแนนเท่ากัน เรียงจากรอบล่าสุด)</div>'+rows+
+  let recentHtml='';
+  if(recent.length>0){
+    recentHtml='<div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--bl)">'+
+      '<div style="font-size:0.6875rem;color:var(--tx2);font-weight:600;margin-bottom:6px">📋 ล่าสุด '+recent.length+' คน</div>';
+    recent.forEach(r=>{
+      recentHtml+='<div class="stats-top-item">'+escapeHtml(r.name)+
+        ' <span class="stats-ward">· '+escapeHtml(r.ward||'—')+'</span> — '+
+        r.score+'/'+r.total+' ข้อ ('+r.pct+'%)</div>';
+    });
+    recentHtml+='</div>';
+  }
+  box.innerHTML=myHtml+
+    '<div class="stats-summary">ผู้ทำแบบทดสอบทั้งหมด <strong>'+total+'</strong> คน</div>'+
+    '<div class="stats-subhead">คะแนนสูงสุด 2 อันดับ</div>'+rows+recentHtml+
     '<button type="button" class="btn-refresh-stats" onclick="loadStats()">↻ รีเฟรชสถิติ</button>';
 }
-function loadStats(){
+
+function loadStats(curName,curWard,curScore,curTotal,curPct){
   const box=document.getElementById('statsBox');
   if(!box) return;
   box.hidden=false;
-  box.innerHTML='<div class="stats-loading">⏳ กำลังโหลดสถิติ...</div>';
+  const myHtml=myResultHtml(curName,curWard,curScore,curTotal,curPct);
+  box.innerHTML=myHtml+'<div class="stats-loading">⏳ กำลังโหลดสถิติทีม...</div>';
   const cb='_strokeQuizStats_'+Date.now();
   const t=setTimeout(function(){
     cleanup();
-    renderStatsBox({ok:false});
+    renderStatsBox({ok:false},curName,curWard,curScore,curTotal,curPct);
   },15000);
   function cleanup(){
     clearTimeout(t);
@@ -459,11 +483,11 @@ function loadStats(){
   }
   window[cb]=function(data){
     cleanup();
-    renderStatsBox(data);
+    renderStatsBox(data,curName,curWard,curScore,curTotal,curPct);
   };
   const s=document.createElement('script');
   s.id='stats-jsonp';
-  s.onerror=function(){ cleanup(); renderStatsBox({ok:false}); };
+  s.onerror=function(){ cleanup(); renderStatsBox({ok:false},curName,curWard,curScore,curTotal,curPct); };
   s.src=SHEET_URL+'?action=stats&token='+encodeURIComponent(TOKEN)+'&callback='+encodeURIComponent(cb);
   document.head.appendChild(s);
 }
@@ -527,7 +551,7 @@ function render(){
   document.getElementById('progressFill').style.width=((cur+1)/Q.length*100)+'%';
   document.getElementById('progressLabel').textContent='ข้อ '+(cur+1)+' / '+Q.length;
   let h='<div class="q-card">';
-  if(rev){const ok=ans[cur]===q.a;h+='<span class="review-badge show" style="background:'+(ok?'var(--sbg)':'var(--dbg)')+';color:'+(ok?'var(--stx)':'var(--dtx)')+';border-color:'+(ok?'var(--sbd)':'var(--dbd)')+'\">'+(ok?'✓ ตอบถูก':'✗ ตอบผิด')+'</span>';}
+  if(rev){const ok=ans[cur]===q.a;h+='<span class="review-badge show" style="background:'+(ok?'var(--sbg)':'var(--dbg)')+';color:'+(ok?'var(--stx)':'var(--dtx)')+';border-color:'+(ok?'var(--sbd)':'var(--dbd)')+'">'+(ok?'✓ ตอบถูก':'✗ ตอบผิด')+'</span>';}
   h+='<div class="q-group">'+q.g+'</div><div class="q-num">ข้อที่ '+(cur+1)+'</div><div class="q-text">'+q.t+'</div><div class="q-hint">💡 '+q.h+'</div><div class="options">';
   q.o.forEach((o,i)=>{
     let c='opt';
@@ -558,7 +582,7 @@ async function showScore(){
   if(pct<60){icon='📚';title='ต้องทบทวนเพิ่มเติม';sub='ลองอ่าน guideline แล้วทำใหม่อีกครั้งนะคะ';}
   else if(pct<80){icon='👍';title='ทำได้ดี!';sub='เข้าใจ workflow ส่วนใหญ่ มีจุดที่ควรทบทวนเล็กน้อย';}
   document.getElementById('scoreIcon').textContent=icon;
-  document.getElementById('scoreName').textContent='👤 '+userName+' · 🏥 '+userWard+(activeCase?' · 📋 '+activeCase.shortTitle:'');
+  document.getElementById('scoreName').textContent='👤 '+userName+' · 🏥 '+userWard+(activeCase?' · 📋 '+(activeCase.shortTitle||activeCase.title):'');
   document.getElementById('scoreTitle').textContent=title;
   document.getElementById('scoreSub').textContent=sub;
   document.getElementById('scoreBig').textContent=correct;
@@ -573,7 +597,8 @@ async function showScore(){
   });
   document.getElementById('scoreBars').innerHTML=b;
   if(!rev) await sendToSheet(correct,Q.length,pct);
-  loadStats();
+  // ส่งชื่อผู้ทำให้ loadStats แสดงทันที
+  loadStats(userName,userWard,correct,Q.length,pct);
   scrollTo(0,0);
 }
 
